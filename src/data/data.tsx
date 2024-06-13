@@ -1,9 +1,9 @@
 import {
   AcademicCapIcon,
   ArrowDownTrayIcon,
-  BuildingOffice2Icon,
+  //BuildingOffice2Icon,
   CalendarIcon,
-  FlagIcon,
+  //FlagIcon,
   MapIcon,
   SparklesIcon,
 } from '@heroicons/react/24/outline';
@@ -14,7 +14,7 @@ import LinkedInIcon from '../components/Icon/LinkedInIcon';
 
 import heroImage from '../images/header-background.webp';
 import portfolioImage1 from '../images/portfolio/portfolio-1.jpg';
-import portfolioImage2 from '../images/portfolio/portfolio-2.jpg';
+import portfolioformulastudent from '../images/portfolio/portfolioformulastudent.png';
 
 import profilePic from '../images/profilepic.jpg';
 import testimonialImage from '../images/testimonial.webp';
@@ -66,7 +66,7 @@ export const heroData: Hero = {
   description: (
     <>
       <p className="prose-sm text-stone-200 sm:prose-base lg:prose-lg">
-        I'm a Stockholm based <strong className="text-stone-100">Data Analyst</strong>, currently studying at <strong className="text-stone-100">Royal Institute of Technology</strong> and working at Qviqe as Founder and Technical Sales Consultant.
+        I'm a Stockholm based <strong className="text-stone-100">Data Analyst</strong> and <strong className="text-stone-100">Project Manager</strong>, currently studying at <strong className="text-stone-100">Royal Institute of Technology</strong> and working at Qviqe as Founder and Technical Sales Consultant.
       </p>
       <p className="prose-sm text-stone-200 sm:prose-base lg:prose-lg">
         In my free time, you can catch me playing <strong className="text-stone-100">piano & guitar</strong>, or <strong className="text-stone-100">golfing</strong> with friends. On race weekends you will catch me watching <strong className="text-stone-100">Formula One</strong>.
@@ -75,7 +75,7 @@ export const heroData: Hero = {
   ),
   actions: [
     {
-      href: '/assets/resume.pdf',
+      href: '/assets/Didrik Liu\'s CV.pdf',
       text: 'Resume',
       primary: true,
       Icon: ArrowDownTrayIcon,
@@ -91,16 +91,29 @@ export const heroData: Hero = {
 /**
  * About section
  */
+
+const calculateAge = (birthDate: Date): number => {
+  const today = new Date();
+  const birthDayThisYear = new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate());
+  let age = today.getFullYear() - birthDate.getFullYear() + 1;
+
+  if (today < birthDayThisYear) {
+    age -= 1;
+  }
+
+  return age;
+};
+
+const birthDate = new Date(2000, 6, 9)
+
 export const aboutData: About = {
   profileImageSrc: profilePic,
   description: '',
   aboutItems: [
     {label: 'Location', text: 'Stockholm, Sweden', Icon: MapIcon},
-    {label: 'Age', text: '24', Icon: CalendarIcon},
-    {label: 'Nationality', text: 'Chinese & Swedish', Icon: FlagIcon},
+    {label: 'Age', text: calculateAge(birthDate).toString(), Icon: CalendarIcon},
     {label: 'Interests', text: 'F1, music, golf', Icon: SparklesIcon},
     {label: 'Study', text: 'Royal Institute of Technology', Icon: AcademicCapIcon},
-    {label: 'Employment', text: 'Open to Work', Icon: BuildingOffice2Icon},
   ],
 };
 
@@ -109,7 +122,7 @@ export const aboutData: About = {
  */
 export const skills: SkillGroup[] = [
   {
-    name: 'Spoken languages',
+    name: 'Spoken Languages',
     skills: [
       {
         name: 'English',
@@ -126,7 +139,7 @@ export const skills: SkillGroup[] = [
     ],
   },
   {
-    name: 'Frontend development',
+    name: 'Frontend Development',
     skills: [
       {
         name: 'plotly',
@@ -143,11 +156,11 @@ export const skills: SkillGroup[] = [
     ],
   },
   {
-    name: 'Backend development',
+    name: 'Backend Development',
     skills: [
       {
-        name: 'Google Cloud Platform',
-        level: 6,
+        name: 'OOP',
+        level: 7,
       },
       {
         name: 'python & pandas',
@@ -155,6 +168,23 @@ export const skills: SkillGroup[] = [
       },
       {
         name: 'SQL',
+        level: 7,
+      },
+    ],
+  },
+  {
+    name: 'Platform Experience',
+    skills: [
+      {
+        name: 'Google Cloud Platform',
+        level: 7,
+      },
+      {
+        name: 'Qlik Sense',
+        level: 9,
+      },
+      {
+        name: 'Monitor ERP',
         level: 7,
       }
     ],
@@ -166,16 +196,16 @@ export const skills: SkillGroup[] = [
  */
 export const portfolioItems: PortfolioItem[] = [
   {
-    title: 'Project title 1',
-    description: 'Give a short description of your project here.',
-    url: 'https://yourprojectlink.com',
-    image: portfolioImage1,
+    title: 'KTH Formula Student',
+    description: 'Sponsor account manager for project with over 80 students',
+    url: 'https://kthformulastudent.se/partners/',
+    image: portfolioformulastudent,
   },
   {
-    title: 'Project title 2',
-    description: 'Give a short description of your project here.',
-    url: 'https://yourprojectlink.com',
-    image: portfolioImage2,
+    title: 'Bachelor Thesis with AMoch',
+    description: 'Optimizing Object Detection in Autonomous Vehicles Using Grayscale Computer Vision Models',
+    url: '/assets/Optimizing Object Detection in Autonomous Vehicles Using Grayscale Computer Vision Models.pdf',
+    image: portfolioImage1,
   },
   // Add more projects as needed
 ];
@@ -199,6 +229,7 @@ export const education: TimelineItem[] = [
 ];
 
 export const experience: TimelineItem[] = [
+  
   {
     date: 'Jun 2023 - Aug 2023',
     location: 'Pricer AB',
@@ -209,13 +240,24 @@ export const experience: TimelineItem[] = [
       </p>
     ),
   },
+
+  {
+    date: 'May 2023 - Now',
+    location: 'Mr Jo Holdings AB',
+    title: 'Product Administrator',
+    content: (
+      <p>
+        Administrate the communication between the EasyShine brand and production facilities. EasyShine is a line of cleaning wipes focused on shoes and screens. 
+      </p>
+    ),
+  },
   {
     date: 'Aug 2021 - Jun 2024',
     location: 'KTH Formula Student',
     title: 'Head of Business Relations',
     content: (
       <p>
-        Responsible for sponsor contact and planning of Business Plan Presentation (part of competition) at the student project. Drafting majorities of contracts between the project and project sponsors. Also responsible for maintenance of Wordpress website. . 
+        Responsible for sponsor contact and planning of Business Plan Presentation (part of competition) at the student project. Drafting majorities of contracts between the project and project sponsors. Also responsible for maintenance of Wordpress website.
       </p>
     ),
   },
@@ -281,7 +323,7 @@ export const testimonial: TestimonialSection = {
  */
 export const contact: ContactSection = {
   headerText: 'Get in touch.',
-  description: 'Here is a good spot for a message to your readers to let them know how best to reach out to you.',
+  description: 'Don\'t hestitate to contact me on LinkedIn or Email!',
   items: [
     {
       type: ContactType.Email,
