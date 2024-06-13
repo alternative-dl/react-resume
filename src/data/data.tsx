@@ -11,22 +11,15 @@ import {
 import GithubIcon from '../components/Icon/GithubIcon';
 import InstagramIcon from '../components/Icon/InstagramIcon';
 import LinkedInIcon from '../components/Icon/LinkedInIcon';
-import StackOverflowIcon from '../components/Icon/StackOverflowIcon';
-import TwitterIcon from '../components/Icon/TwitterIcon';
+
 import heroImage from '../images/header-background.webp';
-import porfolioImage1 from '../images/portfolio/portfolio-1.jpg';
-import porfolioImage2 from '../images/portfolio/portfolio-2.jpg';
-import porfolioImage3 from '../images/portfolio/portfolio-3.jpg';
-import porfolioImage4 from '../images/portfolio/portfolio-4.jpg';
-import porfolioImage5 from '../images/portfolio/portfolio-5.jpg';
-import porfolioImage6 from '../images/portfolio/portfolio-6.jpg';
-import porfolioImage7 from '../images/portfolio/portfolio-7.jpg';
-import porfolioImage8 from '../images/portfolio/portfolio-8.jpg';
-import porfolioImage9 from '../images/portfolio/portfolio-9.jpg';
-import porfolioImage10 from '../images/portfolio/portfolio-10.jpg';
-import porfolioImage11 from '../images/portfolio/portfolio-11.jpg';
-import profilepic from '../images/profilepic.jpg';
+import portfolioImage1 from '../images/portfolio/portfolio-1.jpg';
+import portfolioImage2 from '../images/portfolio/portfolio-2.jpg';
+
+import profilePic from '../images/profilepic.jpg';
 import testimonialImage from '../images/testimonial.webp';
+
+
 import {
   About,
   ContactSection,
@@ -44,8 +37,8 @@ import {
  * Page meta data
  */
 export const homePageMeta: HomepageMeta = {
-  title: 'React Resume Template',
-  description: "Example site built with Tim Baker's react resume template",
+  title: 'DIdrik Liu | Portfolio',
+  description: "",
 };
 
 /**
@@ -69,18 +62,14 @@ export type SectionId = (typeof SectionId)[keyof typeof SectionId];
  */
 export const heroData: Hero = {
   imageSrc: heroImage,
-  name: `I'm Tim Baker.`,
+  name: `I'm Didrik Liu.`,
   description: (
     <>
       <p className="prose-sm text-stone-200 sm:prose-base lg:prose-lg">
-        I'm a Victoria based <strong className="text-stone-100">Full Stack Software Engineer</strong>, currently working
-        at <strong className="text-stone-100">Instant Domains</strong> helping build a modern, mobile-first, domain
-        registrar and site builder.
+        I'm a Stockholm based <strong className="text-stone-100">Data Analyst</strong>, currently studying at <strong className="text-stone-100">Royal Institute of Technology</strong> and working at Qviqe as Founder and Technical Sales Consultant.
       </p>
       <p className="prose-sm text-stone-200 sm:prose-base lg:prose-lg">
-        In my free time time, you can catch me training in <strong className="text-stone-100">Muay Thai</strong>,
-        plucking my <strong className="text-stone-100">banjo</strong>, or exploring beautiful{' '}
-        <strong className="text-stone-100">Vancouver Island</strong>.
+        In my free time, you can catch me playing <strong className="text-stone-100">piano & guitar</strong>, or <strong className="text-stone-100">golfing</strong> with friends. On race weekends you will catch me watching <strong className="text-stone-100">Formula One</strong>.
       </p>
     </>
   ),
@@ -103,17 +92,15 @@ export const heroData: Hero = {
  * About section
  */
 export const aboutData: About = {
-  profileImageSrc: profilepic,
-  description: `Use this bio section as your way of describing yourself and saying what you do, what technologies you like
-  to use or feel most comfortable with, describing your personality, or whatever else you feel like throwing
-  in.`,
+  profileImageSrc: profilePic,
+  description: '',
   aboutItems: [
-    {label: 'Location', text: 'Victoria, BC', Icon: MapIcon},
-    {label: 'Age', text: '29', Icon: CalendarIcon},
-    {label: 'Nationality', text: 'Canadian / Irish', Icon: FlagIcon},
-    {label: 'Interests', text: 'Motorcycles, Muay Thai, Banjos', Icon: SparklesIcon},
-    {label: 'Study', text: 'University of Victoria', Icon: AcademicCapIcon},
-    {label: 'Employment', text: 'Instant Domains, inc.', Icon: BuildingOffice2Icon},
+    {label: 'Location', text: 'Stockholm, Sweden', Icon: MapIcon},
+    {label: 'Age', text: '24', Icon: CalendarIcon},
+    {label: 'Nationality', text: 'Chinese & Swedish', Icon: FlagIcon},
+    {label: 'Interests', text: 'F1, music, golf', Icon: SparklesIcon},
+    {label: 'Study', text: 'Royal Institute of Technology', Icon: AcademicCapIcon},
+    {label: 'Employment', text: 'Open to Work', Icon: BuildingOffice2Icon},
   ],
 };
 
@@ -129,12 +116,12 @@ export const skills: SkillGroup[] = [
         level: 10,
       },
       {
-        name: 'French',
-        level: 4,
+        name: 'Swedish',
+        level: 10,
       },
       {
-        name: 'Spanish',
-        level: 3,
+        name: 'Mandarin',
+        level: 5,
       },
     ],
   },
@@ -142,12 +129,12 @@ export const skills: SkillGroup[] = [
     name: 'Frontend development',
     skills: [
       {
-        name: 'React',
-        level: 9,
+        name: 'plotly',
+        level: 8,
       },
       {
-        name: 'Typescript',
-        level: 7,
+        name: 'React & Typescript',
+        level: 5,
       },
       {
         name: 'GraphQL',
@@ -159,34 +146,17 @@ export const skills: SkillGroup[] = [
     name: 'Backend development',
     skills: [
       {
-        name: 'Node.js',
-        level: 8,
+        name: 'Google Cloud Platform',
+        level: 6,
       },
       {
-        name: 'Rust',
-        level: 5,
-      },
-      {
-        name: 'Golang',
-        level: 4,
-      },
-    ],
-  },
-  {
-    name: 'Mobile development',
-    skills: [
-      {
-        name: 'React Native',
+        name: 'python & pandas',
         level: 9,
       },
       {
-        name: 'Flutter',
-        level: 4,
-      },
-      {
-        name: 'Swift',
-        level: 3,
-      },
+        name: 'SQL',
+        level: 7,
+      }
     ],
   },
 ];
@@ -198,112 +168,98 @@ export const portfolioItems: PortfolioItem[] = [
   {
     title: 'Project title 1',
     description: 'Give a short description of your project here.',
-    url: 'https://reactresume.com',
-    image: porfolioImage1,
+    url: 'https://yourprojectlink.com',
+    image: portfolioImage1,
   },
   {
     title: 'Project title 2',
     description: 'Give a short description of your project here.',
-    url: 'https://reactresume.com',
-    image: porfolioImage2,
+    url: 'https://yourprojectlink.com',
+    image: portfolioImage2,
   },
-  {
-    title: 'Project title 3',
-    description: 'Give a short description of your project here.',
-    url: 'https://reactresume.com',
-    image: porfolioImage3,
-  },
-  {
-    title: 'Project title 4',
-    description: 'Give a short description of your project here.',
-    url: 'https://reactresume.com',
-    image: porfolioImage4,
-  },
-  {
-    title: 'Project title 5',
-    description: 'Give a short description of your project here.',
-    url: 'https://reactresume.com',
-    image: porfolioImage5,
-  },
-  {
-    title: 'Project title 6',
-    description: 'Give a short description of your project here.',
-    url: 'https://reactresume.com',
-    image: porfolioImage6,
-  },
-  {
-    title: 'Project title 7',
-    description: 'Give a short description of your project here.',
-    url: 'https://reactresume.com',
-    image: porfolioImage7,
-  },
-  {
-    title: 'Project title 8',
-    description: 'Give a short description of your project here.',
-    url: 'https://reactresume.com',
-    image: porfolioImage8,
-  },
-  {
-    title: 'Project title 9',
-    description: 'Give a short description of your project here.',
-    url: 'https://reactresume.com',
-    image: porfolioImage9,
-  },
-  {
-    title: 'Project title 10',
-    description: 'Give a short description of your project here.',
-    url: 'https://reactresume.com',
-    image: porfolioImage10,
-  },
-  {
-    title: 'Project title 11',
-    description: 'Give a short description of your project here.',
-    url: 'https://reactresume.com',
-    image: porfolioImage11,
-  },
+  // Add more projects as needed
 ];
 
 /**
- * Resume section -- TODO: Standardize resume contact format or offer MDX
+ * Resume section
  */
 export const education: TimelineItem[] = [
   {
-    date: 'April 2007',
-    location: 'Clown college',
-    title: 'Masters in Beer tasting',
-    content: <p>Describe your experience at school, what you learned, what useful skills you have acquired etc.</p>,
+    date: 'Aug 2021 - Jun 2026',
+    location: 'Royal Institute of Technology',
+    title: 'M.Sc. Computer Science',
+    content: <p>Master's degree in Computer Science with focus on data analytics and software development</p>,
   },
   {
-    date: 'March 2003',
-    location: 'School of Business',
-    title: 'What did you study 101',
-    content: <p>Describe your experience at school, what you learned, what useful skills you have acquired etc.</p>,
+    date: 'Aug 2024 - Jun 2026',
+    location: 'Royal Institute of Technology',
+    title: 'Master of Industrial Management',
+    content: <p>Master's degree in Industrial Management in parallell with CS programme</p>,
   },
 ];
 
 export const experience: TimelineItem[] = [
   {
-    date: 'March 2010 - Present',
-    location: 'Awesome Development Company',
-    title: 'Senior UX Engineer',
+    date: 'Jun 2023 - Aug 2023',
+    location: 'Pricer AB',
+    title: 'Internship in Data Analytics',
     content: (
       <p>
-        Describe work, special projects, notable achievements, what technologies you have been working with, and
-        anything else that would be useful for an employer to know.
+        Create internal dashboards in Qlik Sense. Analyze label energy usage and create LSTM models and alternative approaches on Google Cloud Platform. 
       </p>
     ),
   },
   {
-    date: 'March 2007 - February 2010',
-    location: 'Garage Startup Studio',
-    title: 'Junior bug fixer',
+    date: 'Aug 2021 - Jun 2024',
+    location: 'KTH Formula Student',
+    title: 'Head of Business Relations',
     content: (
       <p>
-        Describe work, special projects, notable achievements, what technologies you have been working with, and
-        anything else that would be useful for an employer to know.
+        Responsible for sponsor contact and planning of Business Plan Presentation (part of competition) at the student project. Drafting majorities of contracts between the project and project sponsors. Also responsible for maintenance of Wordpress website. . 
       </p>
     ),
   },
+  {
+    date: 'Jun 2022 - Aug 2022',
+    location: 'Polarium Energy Solutions AB',
+    title: 'Internship at Sourcing Division',
+    content: (
+      <p>
+        Day to day sourcing administration in Microsoft BC, started my own project designed an analysis tool in Python integrated with Microsoft Excel to visualize data in 3D. Reference available per request.  
+      </p>
+    ),
+  },
+  {
+    date: 'Jun 2018 - Aug 2018',
+    location: 'Wibax AB',
+    title: 'Internship at Sourcing Division',
+    content: (
+      <p>
+        Internship at Wibax AB, primarily practiced on sourcing and import declaration on chemicals purchased by the company. Reference available per request.
+      </p>
+    ),
+  },
+  {
+    date: 'Jun 2016 - Aug 2016',
+    location: 'Simei Media Co. Ltd, Shanghai, China ',
+    title: 'Internship at Marketing Division',
+    content: (
+      <p>
+        Internship at the Shanghai marketing division and focused on one PR  project with an automobile maker in China. Responsible for English translation on marketing brochures and practiced on marketing strategies.  
+      </p>
+    ),
+  },
+  {
+    date: '2014 - 2017',
+    location: 'Lidingö Basket',
+    title: 'Head Coach',
+    content: (
+      <p>
+      
+      </p>
+    ),
+  },
+  
 ];
 
 /**
@@ -313,19 +269,9 @@ export const testimonial: TestimonialSection = {
   imageSrc: testimonialImage,
   testimonials: [
     {
-      name: 'John Doe',
-      text: 'Use this as an opportunity to promote what it is like to work with you. High value testimonials include ones from current or past co-workers, managers, or from happy clients.',
-      image: 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/169.jpg',
-    },
-    {
-      name: 'Jane Doe',
-      text: 'Here you should write some nice things that someone has said about you. Encourage them to be specific and include important details (notes about a project you were on together, impressive quality produced, etc).',
-      image: 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/14.jpg',
-    },
-    {
-      name: 'Someone else',
-      text: 'Add several of these, and keep them as fresh as possible, but be sure to focus on quality testimonials with strong highlights of your skills/work ethic.',
-      image: 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/69.jpg',
+      name: 'Serge de Gosson de Varennes',
+      text: 'One of the most impressive aspects of Didrik\'s internship was his adeptness at problem-solving, his constant search for way of solving problems with new ideas combining different methods and data.',
+      image: 'https://img-0.journaldunet.com/xLlkzXC63gDdcushr3kQuWU5JL0=/200x/smart/be409eb37b16499c833dc387f7d15c1f/user-jdn/39490182-serge-de-gosson-de-varennes.jpg',
     },
   ],
 };
@@ -333,30 +279,24 @@ export const testimonial: TestimonialSection = {
 /**
  * Contact section
  */
-
 export const contact: ContactSection = {
   headerText: 'Get in touch.',
   description: 'Here is a good spot for a message to your readers to let them know how best to reach out to you.',
   items: [
     {
       type: ContactType.Email,
-      text: 'reachout@timbaker.me',
-      href: 'mailto:reachout@timbaker.me',
+      text: 'didrik.liu@gmail.com',
+      href: 'mailto:didrik.liu@gmail.com',
     },
     {
       type: ContactType.Location,
-      text: 'Victoria BC, Canada',
-      href: 'https://www.google.ca/maps/place/Victoria,+BC/@48.4262362,-123.376775,14z',
-    },
-    {
-      type: ContactType.Instagram,
-      text: '@tbakerx',
-      href: 'https://www.instagram.com/tbakerx/',
+      text: 'Stockholm, Sweden',
+      href: 'https://www.google.com/maps',
     },
     {
       type: ContactType.Github,
-      text: 'tbakerx',
-      href: 'https://github.com/tbakerx',
+      text: 'alternative-dl',
+      href: 'https://github.com/alternative-dl',
     },
   ],
 };
@@ -365,9 +305,7 @@ export const contact: ContactSection = {
  * Social items
  */
 export const socialLinks: Social[] = [
-  {label: 'Github', Icon: GithubIcon, href: 'https://github.com/tbakerx'},
-  {label: 'Stack Overflow', Icon: StackOverflowIcon, href: 'https://stackoverflow.com/users/8553186/tim-baker'},
-  {label: 'LinkedIn', Icon: LinkedInIcon, href: 'https://www.linkedin.com/in/timbakerx/'},
-  {label: 'Instagram', Icon: InstagramIcon, href: 'https://www.instagram.com/reactresume/'},
-  {label: 'Twitter', Icon: TwitterIcon, href: 'https://twitter.com/TimBakerx'},
+  {label: 'Github', Icon: GithubIcon, href: 'https://github.com/alternative-dl'},
+  {label: 'LinkedIn', Icon: LinkedInIcon, href: 'https://www.linkedin.com/in/didrik-liu-69575518b/'},
+  {label: 'Instagram', Icon: InstagramIcon, href: 'https://www.instagram.com/didrik.liu/'},
 ];
