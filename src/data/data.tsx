@@ -1,9 +1,7 @@
 import {
   AcademicCapIcon,
   ArrowDownTrayIcon,
-  //BuildingOffice2Icon,
   CalendarIcon,
-  //FlagIcon,
   MapIcon,
   SparklesIcon,
 } from '@heroicons/react/24/outline';
@@ -11,15 +9,11 @@ import {
 import GithubIcon from '../components/Icon/GithubIcon';
 import InstagramIcon from '../components/Icon/InstagramIcon';
 import LinkedInIcon from '../components/Icon/LinkedInIcon';
-
 import heroImage from '../images/header-background.webp';
 import portfolioformulastudent from '../images/portfolio/portfolioformulastudent.png';
 import portfoliokex from '../images/portfolio/portfoliokex.png'
-
 import profilePic from '../images/profilepic.jpg';
 import testimonialImage from '../images/testimonial.webp';
-
-
 import {
   About,
   ContactSection,
