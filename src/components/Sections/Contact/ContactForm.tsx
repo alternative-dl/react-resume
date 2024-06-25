@@ -1,4 +1,4 @@
-import {FC, memo, useCallback, useMemo, useState} from 'react';
+import { FC, memo, useCallback, useMemo, useState } from 'react';
 
 interface FormData {
   name: string;
@@ -22,11 +22,11 @@ const ContactForm: FC = memo(() => {
 
   const onChange = useCallback(
     <T extends HTMLInputElement | HTMLTextAreaElement>(event: React.ChangeEvent<T>): void => {
-      const {name, value} = event.target;
+      const { name, value } = event.target;
 
-      const fieldData: Partial<FormData> = {[name]: value};
+      const fieldData: Partial<FormData> = { [name]: value };
 
-      setData({...data, ...fieldData});
+      setData({ ...data, ...fieldData });
     },
     [data],
   );
@@ -34,7 +34,7 @@ const ContactForm: FC = memo(() => {
   const handleSendMessage = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      
+
       setIsSending(true);
 
       try {
@@ -49,11 +49,11 @@ const ContactForm: FC = memo(() => {
         if (response.ok) {
           setMessage('Your message has been sent successfully!');
         } else {
-          setMessage('Failed to send your message.');
+          setMessage('Failed to send your message1.');
         }
       } catch (error) {
         console.error('Failed to send message:', error);
-        setMessage('Failed to send your message.');
+        setMessage('Failed to send your message2.');
       } finally {
         setIsSending(false);
       }
@@ -90,7 +90,7 @@ const ContactForm: FC = memo(() => {
         className="w-max rounded-full border-2 border-blue-300 bg-stone-900 px-4 py-2 text-sm font-medium text-white shadow-md outline-none hover:bg-stone-800 focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 focus:ring-offset-stone-800"
         disabled={isSending}
         type="submit"
-        >
+      >
         {isSending ? 'Sending...' : 'Send Message'}
       </button>
       {message && <p className="text-white">{message}</p>}
