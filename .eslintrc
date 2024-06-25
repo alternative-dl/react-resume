@@ -16,6 +16,11 @@
     "plugin:@next/next/recommended",
     "prettier"
   ],
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true // Add this line to enable Node.js globals
+  },
   "ignorePatterns": ["*/public", "*/node_modules/*", "*/.next/*", "*/dist/*"],
   "rules": {
     "react/display-name": "off",
