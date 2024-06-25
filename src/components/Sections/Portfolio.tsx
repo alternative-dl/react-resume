@@ -30,6 +30,7 @@ const Portfolio: FC = memo(() => {
             );
           })}
         </div>
+        <h2 className="self-center text-x2 font-bold text-white">More to come...</h2>
       </div>
     </Section>
   );

@@ -13,8 +13,8 @@ import InstagramIcon from '../components/Icon/InstagramIcon';
 import LinkedInIcon from '../components/Icon/LinkedInIcon';
 
 import heroImage from '../images/header-background.webp';
-import portfolioImage1 from '../images/portfolio/portfolio-1.jpg';
 import portfolioformulastudent from '../images/portfolio/portfolioformulastudent.png';
+import portfoliokex from '../images/portfolio/portfoliokex.png'
 
 import profilePic from '../images/profilepic.jpg';
 import testimonialImage from '../images/testimonial.webp';
@@ -37,7 +37,7 @@ import {
  * Page meta data
  */
 export const homePageMeta: HomepageMeta = {
-  title: 'DIdrik Liu | Portfolio',
+  title: 'Didrik Liu | Portfolio',
   description: "",
 };
 
@@ -160,7 +160,7 @@ export const skills: SkillGroup[] = [
     skills: [
       {
         name: 'OOP',
-        level: 7,
+        level: 8,
       },
       {
         name: 'python & pandas',
@@ -184,7 +184,7 @@ export const skills: SkillGroup[] = [
         level: 9,
       },
       {
-        name: 'Monitor ERP',
+        name: 'Docker',
         level: 7,
       }
     ],
@@ -205,7 +205,7 @@ export const portfolioItems: PortfolioItem[] = [
     title: 'Bachelor Thesis with AMoch',
     description: 'Optimizing Object Detection in Autonomous Vehicles Using Grayscale Computer Vision Models',
     url: '/assets/Optimizing Object Detection in Autonomous Vehicles Using Grayscale Computer Vision Models.pdf',
-    image: portfolioImage1,
+    image: portfoliokex,
   },
   // Add more projects as needed
 ];
@@ -243,7 +243,7 @@ export const experience: TimelineItem[] = [
 
   {
     date: 'May 2023 - Now',
-    location: 'Mr Jo Holdings AB',
+    location: 'EasyShine',
     title: 'Product Administrator',
     content: (
       <p>
