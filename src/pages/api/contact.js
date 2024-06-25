@@ -9,7 +9,7 @@ export default async function handler(req, res) {
   console.log('Handler invoked'); // Log to check if handler is invoked
 
   if (req.method === 'POST') {
-    const { name, email, message } = req.body;
+    const {name, email, message} = req.body;
     console.log('Received data:', {name, email, message});
 
     const msg = {
