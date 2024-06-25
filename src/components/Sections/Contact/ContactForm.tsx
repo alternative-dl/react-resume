@@ -17,6 +17,8 @@ const ContactForm: FC = memo(() => {
   );
 
   const [data, setData] = useState<FormData>(defaultData);
+  const [isSending, setIsSending] = useState(false);
+  const [message, setMessage] = useState('');
 
   const onChange = useCallback(
     <T extends HTMLInputElement | HTMLTextAreaElement>(event: React.ChangeEvent<T>): void => {
@@ -32,10 +34,29 @@ const ContactForm: FC = memo(() => {
   const handleSendMessage = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      /**
-       * This is a good starting point to wire up your form submission logic
-       * */
-      console.log('Data to send: ', data);
+      
+      setIsSending(true);
+
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+          setMessage('Your message has been sent successfully!');
+        } else {
+          setMessage('Failed to send your message.');
+        }
+      } catch (error) {
+        console.error('Failed to send message:', error);
+        setMessage('Failed to send your message.');
+      } finally {
+        setIsSending(false);
+      }
     },
     [data],
   );
@@ -68,8 +89,11 @@ const ContactForm: FC = memo(() => {
         aria-label="Submit contact form"
         className="w-max rounded-full border-2 border-blue-300 bg-stone-900 px-4 py-2 text-sm font-medium text-white shadow-md outline-none hover:bg-stone-800 focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 focus:ring-offset-stone-800"
         type="submit">
-        Send Message
+        Send Message        type="submit"
+        disabled={isSending}
+        {isSending ? 'Sending...' : 'Send Message'}
       </button>
+      {message && <p className="text-white">{message}</p>}
     </form>
   );
 });
