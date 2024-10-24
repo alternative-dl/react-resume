@@ -89,7 +89,7 @@ export const heroData: Hero = {
 const calculateAge = (birthDate: Date): number => {
   const today = new Date();
   const birthDayThisYear = new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate());
-  let age = today.getFullYear() - birthDate.getFullYear() + 1;
+  let age = today.getFullYear() - birthDate.getFullYear();
 
   if (today < birthDayThisYear) {
     age -= 1;
