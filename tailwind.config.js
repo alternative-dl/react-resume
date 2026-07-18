@@ -7,6 +7,23 @@ module.exports = {
       colors: {
         yellow: '#efc603',
         primary: '#8CDFFA',
+        // Digital brutalism palette
+        paper: '#f5f1e8',
+        ink: '#0a0a0a',
+        acid: '#ffe600',
+        flare: '#ff5c7c',
+        sky: '#4dd4e8',
+        lime: '#b4ff3d',
+      },
+      fontFamily: {
+        display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
+        mono: ['"Space Mono"', 'ui-monospace', 'monospace'],
+      },
+      boxShadow: {
+        brutal: '6px 6px 0 0 #0a0a0a',
+        'brutal-sm': '4px 4px 0 0 #0a0a0a',
+        'brutal-lg': '10px 10px 0 0 #0a0a0a',
+        'brutal-acid': '6px 6px 0 0 #ffe600',
       },
       keyframes: {
         typing: {

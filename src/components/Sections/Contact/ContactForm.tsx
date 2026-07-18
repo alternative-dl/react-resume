@@ -62,7 +62,7 @@ const ContactForm: FC = memo(() => {
   );
 
   const inputClasses =
-    'bg-neutral-700 border-0 focus:border-0 focus:outline-none focus:ring-1 focus:ring-blue-300 rounded-md placeholder:text-neutral-400 placeholder:text-sm text-neutral-200 text-sm';
+    'border-[3px] border-ink bg-paper rounded-none px-3 py-2 font-mono text-sm text-ink placeholder:text-neutral-500 placeholder:text-sm focus:outline-none focus:shadow-brutal-sm focus:ring-0';
 
   return (
     <form className="grid min-h-[320px] grid-cols-1 gap-y-4" method="POST" onSubmit={handleSendMessage}>
@@ -87,13 +87,13 @@ const ContactForm: FC = memo(() => {
       />
       <button
         aria-label="Submit contact form"
-        className="w-max rounded-full border-2 border-blue-300 bg-stone-900 px-4 py-2 text-sm font-medium text-white shadow-md outline-none hover:bg-stone-800 focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 focus:ring-offset-stone-800"
+        className="w-max border-[3px] border-ink bg-ink px-5 py-2.5 font-mono text-sm font-bold uppercase tracking-tight text-acid shadow-brutal-sm outline-none transition-transform hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal focus-visible:ring-2 focus-visible:ring-ink disabled:opacity-60"
         disabled={isSending}
         type="submit"
       >
         {isSending ? 'Sending...' : 'Send Message'}
       </button>
-      {message && <p className="text-white">{message}</p>}
+      {message && <p className="border-[3px] border-ink bg-paper px-3 py-2 font-mono text-sm font-bold text-ink">{message}</p>}
     </form>
   );
 });

@@ -8,8 +8,8 @@ import TimelineItem from './TimelineItem';
 
 const Resume: FC = memo(() => {
   return (
-    <Section className="bg-neutral-100" sectionId={SectionId.Resume}>
-      <div className="flex flex-col divide-y-2 divide-neutral-300">
+    <Section className="border-t-[3px] border-ink bg-paper" sectionId={SectionId.Resume}>
+      <div className="flex flex-col divide-y-[3px] divide-ink">
         <ResumeSection title="Education">
           {education.map((item, index) => (
             <TimelineItem item={item} key={`${item.title}-${index}`} />
@@ -21,7 +21,9 @@ const Resume: FC = memo(() => {
           ))}
         </ResumeSection>
         <ResumeSection title="Skills">
-          <p className="pb-8">Here are some of my skills accumulated over my degree and my previous experiences</p>
+          <p className="pb-8 font-mono text-sm text-ink">
+            Skills accumulated across my degree and previous experiences.
+          </p>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {skills.map((skillgroup, index) => (
               <SkillGroup key={`${skillgroup.name}-${index}`} skillGroup={skillgroup} />

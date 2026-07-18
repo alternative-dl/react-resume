@@ -1,5 +1,4 @@
 import {DevicePhoneMobileIcon, EnvelopeIcon, MapPinIcon} from '@heroicons/react/24/outline';
-import classNames from 'classnames';
 import {FC, memo} from 'react';
 
 import {contact, SectionId} from '../../../data/data';
@@ -26,19 +25,21 @@ const ContactValueMap: Record<ContactType, ContactValue> = {
 const Contact: FC = memo(() => {
   const {headerText, description, items} = contact;
   return (
-    <Section className="bg-neutral-800" sectionId={SectionId.Contact}>
-      <div className="flex flex-col gap-y-6">
-        <div className="flex flex-col gap-6 md:flex-row md:items-center">
-          <EnvelopeIcon className="hidden h-16 w-16 text-white md:block" />
-          <h2 className="text-2xl font-bold text-white">{headerText}</h2>
+    <Section className="border-t-[3px] border-ink bg-acid" sectionId={SectionId.Contact}>
+      <div className="flex flex-col gap-y-8">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center">
+          <EnvelopeIcon className="hidden h-14 w-14 border-[3px] border-ink bg-paper p-2 text-ink shadow-brutal-sm md:block" strokeWidth={2} />
+          <h2 className="w-max border-[3px] border-ink bg-paper px-4 py-2 font-display text-2xl font-bold uppercase tracking-tight text-ink shadow-brutal sm:text-3xl">
+            {headerText}
+          </h2>
         </div>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           <div className="order-2 col-span-1 md:order-1 ">
             <ContactForm />
           </div>
-          <div className="order-1 col-span-1 flex flex-col gap-y-4 md:order-2">
-            <p className="prose leading-6 text-neutral-300">{description}</p>
-            <dl className="flex flex-col space-y-4 text-base text-neutral-500 sm:space-y-2">
+          <div className="order-1 col-span-1 flex flex-col gap-y-5 md:order-2">
+            <p className="font-mono text-sm leading-relaxed text-ink sm:text-base">{description}</p>
+            <dl className="flex flex-col gap-y-3">
               {items.map(({type, text, href}) => {
                 const {Icon, srLabel} = ContactValueMap[type];
                 return (
@@ -46,14 +47,11 @@ const Contact: FC = memo(() => {
                     <dt className="sr-only">{srLabel}</dt>
                     <dd className="flex items-center">
                       <a
-                        className={classNames(
-                          '-m-2 flex rounded-md p-2 text-neutral-300 hover:text-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500',
-                          {'hover:text-white': href},
-                        )}
+                        className="flex items-center gap-x-3 border-[3px] border-ink bg-paper px-3 py-2 font-mono text-sm font-bold text-ink shadow-brutal-sm transition-transform hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal focus:outline-none focus-visible:ring-2 focus-visible:ring-ink sm:text-base"
                         href={href}
                         target="_blank">
-                        <Icon aria-hidden="true" className="h-4 w-4 flex-shrink-0 text-neutral-100 sm:h-5 sm:w-5" />
-                        <span className="ml-3 text-sm sm:text-base">{text}</span>
+                        <Icon aria-hidden="true" className="h-5 w-5 flex-shrink-0 text-ink" strokeWidth={2.5} />
+                        <span>{text}</span>
                       </a>
                     </dd>
                   </div>
