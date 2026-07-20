@@ -5,45 +5,42 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        yellow: '#efc603',
-        primary: '#8CDFFA',
-        // Digital brutalism palette
+        // Neo-brutalism: flat paper, black structure, one signal accent
         paper: '#f5f1e8',
         ink: '#0a0a0a',
-        acid: '#ffe600',
-        flare: '#ff5c7c',
-        sky: '#4dd4e8',
-        lime: '#b4ff3d',
+        signal: '#ff4d00',
       },
       fontFamily: {
-        display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
-        mono: ['"Space Mono"', 'ui-monospace', 'monospace'],
+        display: ['var(--font-display)', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
+      },
+      animation: {
+        blink: 'blink 1.1s step-end infinite',
+        'grid-pan': 'grid-pan 8s linear infinite',
+        marquee: 'marquee 24s linear infinite',
+        'pop-in': 'pop-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both',
       },
       boxShadow: {
         brutal: '6px 6px 0 0 #0a0a0a',
         'brutal-sm': '4px 4px 0 0 #0a0a0a',
         'brutal-lg': '10px 10px 0 0 #0a0a0a',
-        'brutal-acid': '6px 6px 0 0 #ffe600',
       },
       keyframes: {
-        typing: {
-          '0%, 100%': {width: '0%'},
-          '30%, 70%': {width: '100%'},
-        },
         blink: {
-          '0%': {
-            opacity: 0,
-          },
+          '0%, 100%': {opacity: '1'},
+          '50%': {opacity: '0'},
         },
-        'rotate-loader': {
-          '0%': {
-            transform: 'rotate(0deg)',
-            strokeDashoffset: '360%',
-          },
-          '100%': {
-            transform: 'rotate(360deg)',
-            strokeDashoffset: '-360%',
-          },
+        'grid-pan': {
+          '0%': {backgroundPosition: '0 0'},
+          '100%': {backgroundPosition: '44px 44px'},
+        },
+        marquee: {
+          '0%': {transform: 'translateX(0%)'},
+          '100%': {transform: 'translateX(-50%)'},
+        },
+        'pop-in': {
+          '0%': {opacity: '0', transform: 'translateY(28px)'},
+          '100%': {opacity: '1', transform: 'translateY(0)'},
         },
       },
       screens: {
