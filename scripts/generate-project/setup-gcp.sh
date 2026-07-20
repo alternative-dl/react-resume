@@ -36,6 +36,15 @@ gcloud iam service-accounts create "$SA_NAME" \
   --project "$PROJECT" \
   --display-name "Monthly portfolio project deployer" 2>/dev/null || echo "    already exists"
 
+echo "==> Waiting for the service account to propagate"
+for _ in $(seq 1 30); do
+  if gcloud iam service-accounts describe "$SA_EMAIL" --project "$PROJECT" >/dev/null 2>&1; then
+    echo "    ready"
+    break
+  fi
+  sleep 2
+done
+
 echo "==> Granting deploy roles"
 for ROLE in \
   roles/run.admin \
