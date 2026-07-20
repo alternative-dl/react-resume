@@ -20,13 +20,20 @@ export type Idea = {slug: string; title: string; description: string};
 export type GeneratedFile = {path: string; content: string};
 
 /** Tools we never want the model to touch — this is a pure text generation. */
-const NO_TOOLS = 'Bash,Read,Write,Edit,MultiEdit,NotebookEdit,WebFetch,WebSearch,Glob,Grep,Task,TodoWrite';
+const NO_TOOLS = 'Bash,Read,Write,Edit,NotebookEdit,WebFetch,WebSearch,Glob,Grep,Task,TodoWrite';
 
 /**
  * Run one headless prompt and return the model's text answer.
  * Uses `--output-format json` and reads the `result` field from the envelope.
  */
 function runClaude(prompt: string, model: string): string {
+  // Force the subscription auth path: an ANTHROPIC_API_KEY / ANTHROPIC_AUTH_TOKEN
+  // in the environment (even empty) shadows the logged-in / CLAUDE_CODE_OAUTH_TOKEN
+  // credential and makes `claude` fail with an auth error. Strip both.
+  const env = {...process.env};
+  delete env.ANTHROPIC_API_KEY;
+  delete env.ANTHROPIC_AUTH_TOKEN;
+
   const stdout = execFileSync(
     config.claudeBin,
     [
@@ -41,7 +48,7 @@ function runClaude(prompt: string, model: string): string {
       '--append-system-prompt',
       'You are a code generator invoked non-interactively. Reply with ONLY the requested JSON — no prose, no explanation, no markdown fences unless asked.',
     ],
-    {encoding: 'utf8', maxBuffer: 64 * 1024 * 1024},
+    {encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, env},
   );
 
   const envelope = JSON.parse(stdout) as {
