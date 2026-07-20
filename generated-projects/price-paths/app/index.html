@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>Price Path Explorer</title>
+<style>
+:root{
+  --bg:#f7f7f5;
+  --panel:#ffffff;
+  --ink:#1a1a1a;
+  --muted:#6b7280;
+  --line:#e6e6e2;
+  --accent:#4f46e5;
+  --accent-soft:rgba(79,70,229,0.12);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg); color:var(--ink);
+  line-height:1.5; -webkit-font-smoothing:antialiased;
+}
+main{max-width:1080px; margin:0 auto; padding:34px 20px 56px}
+header{margin-bottom:24px}
+h1{font-size:27px; letter-spacing:-0.02em; margin:0 0 6px}
+.sub{margin:0; color:var(--muted); font-size:15px; max-width:64ch}
+.layout{display:grid; grid-template-columns:280px 1fr; gap:20px; align-items:start}
+@media(max-width:820px){ .layout{grid-template-columns:1fr} }
+.panel{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:18px}
+.controls .control{margin-bottom:16px}
+.controls .control:last-of-type{margin-bottom:8px}
+.control-head{display:flex; justify-content:space-between; font-size:13px; margin-bottom:6px}
+.control-head .name{color:var(--muted)}
+.control-head .val{font-variant-numeric:tabular-nums; font-weight:600}
+input[type=range]{width:100%; accent-color:var(--accent); height:20px}
+button{
+  width:100%; margin-top:4px; padding:11px; border:none; border-radius:10px;
+  background:var(--ink); color:#fff; font-size:14px; font-weight:600; cursor:pointer;
+}
+button:hover{background:#000}
+.viz{display:flex; flex-direction:column; gap:16px}
+.card{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:16px 16px 12px}
+.card h2{font-size:12px; text-transform:uppercase; letter-spacing:0.07em; color:var(--muted); margin:0 0 10px; font-weight:600}
+canvas{display:block; width:100%}
+#fan{height:360px}
+#hist{height:170px}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-size:12px; color:var(--muted); margin-top:10px}
+.legend span{display:inline-flex; align-items:center; gap:6px}
+.legend i{width:14px; height:10px; border-radius:3px; display:inline-block}
+.stats{display:grid; grid-template-columns:repeat(4,1fr); gap:12px}
+@media(max-width:560px){ .stats{grid-template-columns:repeat(2,1fr)} }
+.stat{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:12px 14px}
+.stat .k{font-size:12px; color:var(--muted)}
+.stat .v{font-size:19px; font-weight:700; font-variant-numeric:tabular-nums; margin-top:3px; letter-spacing:-0.01em}
+footer{margin-top:26px; font-size:12px; color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Price Path Explorer</h1>
+    <p class='sub'>An interactive Monte Carlo simulator showing how market volatility widens the cone of an asset's possible future prices. Drag the sliders to explore.</p>
+  </header>
+  <div class='layout'>
+    <div class='panel controls' id='controls'></div>
+    <div class='viz'>
+      <div class='card'>
+        <h2>Projected price cone</h2>
+        <canvas id='fan'></canvas>
+        <div class='legend'>
+          <span><i style='background:rgba(79,70,229,0.12)'></i>5&ndash;95% range</span>
+          <span><i style='background:rgba(79,70,229,0.26)'></i>25&ndash;75% range</span>
+          <span><i style='background:#4f46e5'></i>Median path</span>
+          <span><i style='background:repeating-linear-gradient(90deg,#999 0 4px,transparent 4px 8px)'></i>Starting price</span>
+        </div>
+      </div>
+      <div class='card'>
+        <h2>Distribution of outcomes at horizon</h2>
+        <canvas id='hist'></canvas>
+      </div>
+      <div class='stats' id='stats'></div>
+    </div>
+  </div>
+  <footer>Model: Geometric Brownian Motion, dS = &mu;S&middot;dt + &sigma;S&middot;dW. Educational tool &mdash; not investment advice.</footer>
+</main>
+<script>
+(function(){
+  'use strict';
+  var $=function(id){return document.getElementById(id);};
+
+  var CONTROLS=[
+    {id:'s0',label:'Starting price',min:10,max:500,step:1,val:100,fmt:function(v){return '$'+v;}},
+    {id:'mu',label:'Annual drift (μ)',min:-20,max:40,step:1,val:7,fmt:function(v){return v+'%';}},
+    {id:'sigma',label:'Annual volatility (σ)',min:1,max:100,step:1,val:20,fmt:function(v){return v+'%';}},
+    {id:'years',label:'Time horizon',min:0.25,max:5,step:0.25,val:1,fmt:function(v){return v+' yr';}},
+    {id:'paths',label:'Simulated paths',min:100,max:2000,step:100,val:600,fmt:function(v){return v+'';}}
+  ];
+
+  var ACCENT='#4f46e5';
+  var params={};
+  var last=null;
+
+  var box=$('controls');
+  CONTROLS.forEach(function(c){
+    params[c.id]=c.val;
+    var wrap=document.createElement('div'); wrap.className='control';
+    var head=document.createElement('div'); head.className='control-head';
+    var nm=document.createElement('span'); nm.className='name'; nm.textContent=c.label;
+    var vl=document.createElement('span'); vl.className='val'; vl.textContent=c.fmt(c.val);
+    head.appendChild(nm); head.appendChild(vl);
+    var input=document.createElement('input');
+    input.type='range'; input.min=c.min; input.max=c.max; input.step=c.step; input.value=c.val;
+    input.addEventListener('input',function(){
+      var v=parseFloat(input.value); params[c.id]=v; vl.textContent=c.fmt(v); schedule();
+    });
+    wrap.appendChild(head); wrap.appendChild(input); box.appendChild(wrap);
+  });
+  var btn=document.createElement('button'); btn.textContent='Resimulate';
+  btn.addEventListener('click',run); box.appendChild(btn);
+
+  function randn(){
+    var u=0,v=0;
+    while(u===0)u=Math.random();
+    while(v===0)v=Math.random();
+    return Math.sqrt(-2*Math.log(u))*Math.cos(6.283185307179586*v);
+  }
+
+  function simulate(p){
+    var steps=180;
+    var s0=p.s0, years=p.years, paths=Math.round(p.paths);
+    var mu=p.mu/100, sigma=p.sigma/100;
+    var dt=years/steps;
+    var drift=(mu-0.5*sigma*sigma)*dt;
+    var vol=sigma*Math.sqrt(dt);
+    var cols=[]; var t,i;
+    for(t=0;t<=steps;t++) cols.push(new Float64Array(paths));
+    var finals=new Float64Array(paths);
+    for(i=0;i<paths;i++){
+      var s=s0; cols[0][i]=s;
+      for(t=1;t<=steps;t++){ s=s*Math.exp(drift+vol*randn()); cols[t][i]=s; }
+      finals[i]=s;
+    }
+    var qs=[0.05,0.25,0.5,0.75,0.95];
+    var bands=qs.map(function(){return new Float64Array(steps+1);});
+    var tmp=new Float64Array(paths);
+    for(t=0;t<=steps;t++){
+      tmp.set(cols[t]); tmp.sort();
+      qs.forEach(function(q,qi){ bands[qi][t]=tmp[Math.min(paths-1,Math.floor(q*paths))]; });
+    }
+    var sf=finals.slice(0).sort();
+    var mean=0; for(i=0;i<paths;i++) mean+=finals[i]; mean/=paths;
+    var win=0; for(i=0;i<paths;i++) if(finals[i]>s0) win++;
+    var sample=[]; var n=Math.min(45,paths);
+    for(var k=0;k<n;k++){
+      var idx=Math.floor(k*paths/n);
+      var arr=new Float64Array(steps+1);
+      for(t=0;t<=steps;t++) arr[t]=cols[t][idx];
+      sample.push(arr);
+    }
+    return {steps:steps,years:years,s0:s0,paths:paths,bands:bands,sample:sample,finals:sf,mean:mean,winRate:win/paths};
+  }
+
+  function fit(cv){
+    var dpr=window.devicePixelRatio||1;
+    var r=cv.getBoundingClientRect();
+    cv.width=Math.max(1,Math.round(r.width*dpr));
+    cv.height=Math.max(1,Math.round(r.height*dpr));
+    var ctx=cv.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0);
+    return {ctx:ctx,w:r.width,h:r.height};
+  }
+
+  function money(v){
+    if(v>=100) return '$'+v.toFixed(0);
+    if(v>=10) return '$'+v.toFixed(1);
+    return '$'+v.toFixed(2);
+  }
+  function niceStep(range,ticks){
+    var raw=range/ticks;
+    if(raw<=0) return 1;
+    var mag=Math.pow(10,Math.floor(Math.log(raw)/Math.LN10));
+    var norm=raw/mag;
+    var step=norm<1.5?1:norm<3?2:norm<7?5:10;
+    return step*mag;
+  }
+
+  function drawFan(sim){
+    var d=fit($('fan')); var ctx=d.ctx, W=d.w, H=d.h;
+    ctx.clearRect(0,0,W,H);
+    var padL=54,padR=14,padT=12,padB=26;
+    var plotW=W-padL-padR, plotH=H-padT-padB;
+    var b=sim.bands, t;
+    var lo=Infinity,hi=-Infinity;
+    for(t=0;t<=sim.steps;t++){ if(b[0][t]<lo)lo=b[0][t]; if(b[4][t]>hi)hi=b[4][t]; }
+    if(sim.s0<lo)lo=sim.s0; if(sim.s0>hi)hi=sim.s0;
+    var pad=(hi-lo)*0.06||1; lo-=pad; hi+=pad; if(lo<0)lo=0; if(hi<=lo)hi=lo+1;
+    var X=function(t){return padL+(t/sim.steps)*plotW;};
+    var Y=function(v){return padT+(1-(v-lo)/(hi-lo))*plotH;};
+
+    ctx.font='11px -apple-system,system-ui,sans-serif'; ctx.textBaseline='middle';
+    var step=niceStep(hi-lo,5);
+    var start=Math.ceil(lo/step)*step;
+    ctx.lineWidth=1;
+    for(var g=start; g<=hi; g+=step){
+      var y=Y(g);
+      ctx.strokeStyle='#eeeeea'; ctx.beginPath(); ctx.moveTo(padL,y); ctx.lineTo(W-padR,y); ctx.stroke();
+      ctx.fillStyle='#9ca3af'; ctx.textAlign='right'; ctx.fillText(money(g),padL-8,y);
+    }
+    ctx.textAlign='center'; ctx.textBaseline='top'; ctx.fillStyle='#9ca3af';
+    [0,0.5,1].forEach(function(f){
+      var yr=sim.years*f;
+      ctx.fillText(f===0?'now':(Math.round(yr*100)/100)+' yr', X(f*sim.steps), H-padB+9);
+    });
+
+    function bandFill(iLo,iHi,color){
+      ctx.beginPath();
+      ctx.moveTo(X(0),Y(b[iHi][0]));
+      for(t=1;t<=sim.steps;t++) ctx.lineTo(X(t),Y(b[iHi][t]));
+      for(t=sim.steps;t>=0;t--) ctx.lineTo(X(t),Y(b[iLo][t]));
+      ctx.closePath(); ctx.fillStyle=color; ctx.fill();
+    }
+    bandFill(0,4,'rgba(79,70,229,0.12)');
+    bandFill(1,3,'rgba(79,70,229,0.24)');
+
+    ctx.strokeStyle='rgba(79,70,229,0.10)'; ctx.lineWidth=1;
+    sim.sample.forEach(function(arr){
+      ctx.beginPath(); ctx.moveTo(X(0),Y(arr[0]));
+      for(t=1;t<=sim.steps;t++) ctx.lineTo(X(t),Y(arr[t]));
+      ctx.stroke();
+    });
+
+    ctx.strokeStyle='rgba(0,0,0,0.22)'; ctx.setLineDash([4,4]); ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(padL,Y(sim.s0)); ctx.lineTo(W-padR,Y(sim.s0)); ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.strokeStyle=ACCENT; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(X(0),Y(b[2][0]));
+    for(t=1;t<=sim.steps;t++) ctx.lineTo(X(t),Y(b[2][t]));
+    ctx.stroke();
+  }
+
+  function drawHist(sim){
+    var d=fit($('hist')); var ctx=d.ctx, W=d.w, H=d.h;
+    ctx.clearRect(0,0,W,H);
+    var padL=54,padR=14,padT=14,padB=22;
+    var plotW=W-padL-padR, plotH=H-padT-padB;
+    var f=sim.finals, n=f.length, i;
+    var loC=f[Math.floor(0.01*n)], hiC=f[Math.min(n-1,Math.floor(0.99*n))];
+    if(hiC<=loC){ loC=f[0]; hiC=f[n-1]; }
+    if(hiC<=loC){ hiC=loC+1; }
+    var bins=30, counts=new Array(bins).fill(0), w=(hiC-loC)/bins;
+    for(i=0;i<n;i++){ var bi=Math.floor((f[i]-loC)/w); if(bi<0)bi=0; if(bi>=bins)bi=bins-1; counts[bi]++; }
+    var maxC=1; for(i=0;i<bins;i++) if(counts[i]>maxC)maxC=counts[i];
+    var X=function(v){return padL+((v-loC)/(hiC-loC))*plotW;};
+    for(i=0;i<bins;i++){
+      var x0=padL+(i/bins)*plotW, bw=plotW/bins, bh=(counts[i]/maxC)*plotH;
+      ctx.fillStyle='rgba(79,70,229,0.5)';
+      ctx.fillRect(x0+0.5,padT+plotH-bh,Math.max(1,bw-1),bh);
+    }
+    ctx.font='11px -apple-system,system-ui,sans-serif';
+    ctx.setLineDash([3,3]); ctx.lineWidth=1;
+    if(sim.s0>=loC&&sim.s0<=hiC){ ctx.strokeStyle='rgba(0,0,0,0.3)'; var xs=X(sim.s0); ctx.beginPath(); ctx.moveTo(xs,padT); ctx.lineTo(xs,padT+plotH); ctx.stroke(); }
+    ctx.setLineDash([]);
+    var med=f[Math.floor(0.5*n)], xm=X(med);
+    ctx.strokeStyle=ACCENT; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(xm,padT); ctx.lineTo(xm,padT+plotH); ctx.stroke();
+    ctx.fillStyle='#9ca3af'; ctx.textBaseline='top';
+    ctx.textAlign='left'; ctx.fillText(money(loC),padL,padT+plotH+6);
+    ctx.textAlign='right'; ctx.fillText(money(hiC),W-padR,padT+plotH+6);
+    ctx.textAlign='center'; ctx.fillStyle=ACCENT;
+    ctx.fillText('median '+money(med),Math.min(Math.max(xm,padL+44),W-padR-44),padT+plotH+6);
+  }
+
+  function stats(sim){
+    var f=sim.finals, n=f.length;
+    var p05=f[Math.floor(0.05*n)], p50=f[Math.floor(0.5*n)], p95=f[Math.min(n-1,Math.floor(0.95*n))];
+    var items=[
+      {k:'Median outcome',v:money(p50)},
+      {k:'90% range',v:money(p05)+' – '+money(p95)},
+      {k:'Chance of gain',v:(sim.winRate*100).toFixed(0)+'%'},
+      {k:'Mean outcome',v:money(sim.mean)}
+    ];
+    var wrap=$('stats'); wrap.innerHTML='';
+    items.forEach(function(it){
+      var el=document.createElement('div'); el.className='stat';
+      var k=document.createElement('div'); k.className='k'; k.textContent=it.k;
+      var v=document.createElement('div'); v.className='v'; v.textContent=it.v;
+      el.appendChild(k); el.appendChild(v); wrap.appendChild(el);
+    });
+  }
+
+  function render(){ if(!last)return; drawFan(last); drawHist(last); stats(last); }
+  function run(){ last=simulate({s0:params.s0,mu:params.mu,sigma:params.sigma,years:params.years,paths:params.paths}); render(); }
+
+  var queued=false;
+  function schedule(){ if(queued)return; queued=true; requestAnimationFrame(function(){queued=false; run();}); }
+
+  var rz=null;
+  window.addEventListener('resize',function(){ clearTimeout(rz); rz=setTimeout(render,120); });
+
+  run();
+})();
+</script>
+</body>
+</html>
