@@ -56,9 +56,13 @@ function runClaude(prompt: string, model: string): string {
     const err = e as {status?: number; stderr?: string | Buffer; stdout?: string | Buffer};
     const stderr = (err.stderr ?? '').toString().trim();
     const out = (err.stdout ?? '').toString().trim();
-    const hint = !env.CLAUDE_CODE_OAUTH_TOKEN
-      ? '\n  hint: CLAUDE_CODE_OAUTH_TOKEN is not set — in CI this must be a repo secret from `claude setup-token`.'
-      : '';
+    const combined = `${stderr}\n${out}`.toLowerCase();
+    const hint =
+      combined.includes('401') || combined.includes('invalid bearer') || combined.includes('failed to authenticate')
+        ? '\n  hint: CLAUDE_CODE_OAUTH_TOKEN is present but rejected (401). Regenerate it with `claude setup-token` and update the GitHub secret with the exact value (starts with sk-ant-oat01-, no quotes/newline).'
+        : !env.CLAUDE_CODE_OAUTH_TOKEN
+          ? '\n  hint: CLAUDE_CODE_OAUTH_TOKEN is not set — in CI this must be a repo secret from `claude setup-token`.'
+          : '';
     throw new Error(
       `\`${config.claudeBin}\` exited ${err.status ?? '?'}.` +
         `\n  stderr: ${stderr || '(empty)'}` +
