@@ -26,6 +26,7 @@ import {
   TestimonialSection,
   TimelineItem,
 } from './dataDef';
+import {generatedProjects} from './generatedProjects';
 
 /**
  * Page meta data
@@ -233,7 +234,8 @@ export const portfolioItems: PortfolioItem[] = [
     url: '/assets/Optimizing Object Detection in Autonomous Vehicles Using Grayscale Computer Vision Models.pdf',
     image: portfoliokex,
   },
-  // Add more projects as needed
+  // Machine-generated demos (one per month, deployed to Cloud Run) are appended here.
+  ...generatedProjects,
 ];
 
 /**

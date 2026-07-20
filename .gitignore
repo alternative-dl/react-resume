@@ -6,6 +6,9 @@
 .pnp.js
 .yarn
 
+# generator (isolated mini-package) deps
+scripts/generate-project/node_modules
+
 # testing
 /coverage
 
