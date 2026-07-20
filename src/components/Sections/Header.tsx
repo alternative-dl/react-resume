@@ -33,13 +33,11 @@ const Header: FC = memo(() => {
 const DesktopNav: FC<{navSections: SectionId[]; currentSection: SectionId | null}> = memo(
   ({navSections, currentSection}) => {
     const baseClass =
-      'px-3 py-1 font-mono text-sm font-bold uppercase tracking-tight text-ink transition-none focus:outline-none focus-visible:ring-2 focus-visible:ring-ink hover:bg-ink hover:text-signal';
-    const activeClass = classNames(baseClass, 'bg-ink text-signal');
+      'px-3 py-1 font-mono text-sm font-bold uppercase tracking-tight text-ink transition-none focus:outline-none focus-visible:ring-2 focus-visible:ring-ink hover:bg-ink hover:text-acid';
+    const activeClass = classNames(baseClass, 'bg-ink text-acid');
     const inactiveClass = classNames(baseClass, 'bg-transparent text-ink');
     return (
-      <header
-        className="fixed top-0 z-50 hidden w-full border-b-[3px] border-ink bg-paper px-4 py-3 sm:block"
-        id={headerID}>
+      <header className="fixed top-0 z-50 hidden w-full border-b-[3px] border-ink bg-acid px-4 py-3 sm:block" id={headerID}>
         <nav className="flex justify-center gap-x-2">
           {navSections.map(section => (
             <NavItem
@@ -65,14 +63,14 @@ const MobileNav: FC<{navSections: SectionId[]; currentSection: SectionId | null}
     }, [isOpen]);
 
     const baseClass =
-      'border-[3px] border-ink px-3 py-2 font-mono text-sm font-bold uppercase tracking-tight transition-none focus:outline-none focus-visible:ring-2 focus-visible:ring-signal';
-    const activeClass = classNames(baseClass, 'bg-ink text-signal');
+      'border-[3px] border-ink px-3 py-2 font-mono text-sm font-bold uppercase tracking-tight transition-none focus:outline-none focus-visible:ring-2 focus-visible:ring-acid';
+    const activeClass = classNames(baseClass, 'bg-ink text-acid');
     const inactiveClass = classNames(baseClass, 'bg-paper text-ink');
     return (
       <>
         <button
           aria-label="Menu Button"
-          className="fixed right-3 top-3 z-40 border-[3px] border-ink bg-signal p-2 shadow-brutal-sm hover:bg-paper focus:outline-none focus-visible:ring-2 focus-visible:ring-ink sm:hidden"
+          className="fixed right-3 top-3 z-40 border-[3px] border-ink bg-flare p-2 shadow-brutal-sm hover:bg-acid focus:outline-none focus-visible:ring-2 focus-visible:ring-ink sm:hidden"
           onClick={toggleOpen}>
           <Bars3BottomRightIcon className="h-8 w-8 text-ink" />
           <span className="sr-only">Open sidebar</span>
@@ -97,7 +95,7 @@ const MobileNav: FC<{navSections: SectionId[]; currentSection: SectionId | null}
               leave="transition ease-in-out duration-300 transform"
               leaveFrom="translate-x-0"
               leaveTo="-translate-x-full">
-              <div className="relative w-4/5 border-r-[3px] border-ink bg-paper">
+              <div className="relative w-4/5 border-r-[3px] border-ink bg-acid">
                 <nav className="mt-16 flex flex-col gap-y-3 px-4">
                   {navSections.map(section => (
                     <NavItem

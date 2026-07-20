@@ -87,14 +87,13 @@ const ContactForm: FC = memo(() => {
       />
       <button
         aria-label="Submit contact form"
-        className="w-max border-[3px] border-ink bg-ink px-5 py-2.5 font-mono text-sm font-bold uppercase tracking-tight text-signal shadow-brutal-sm outline-none transition-transform hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal focus-visible:ring-2 focus-visible:ring-ink disabled:opacity-60"
+        className="w-max border-[3px] border-ink bg-ink px-5 py-2.5 font-mono text-sm font-bold uppercase tracking-tight text-acid shadow-brutal-sm outline-none transition-transform hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal focus-visible:ring-2 focus-visible:ring-ink disabled:opacity-60"
         disabled={isSending}
-        type="submit">
+        type="submit"
+      >
         {isSending ? 'Sending...' : 'Send Message'}
       </button>
-      {message && (
-        <p className="border-[3px] border-ink bg-paper px-3 py-2 font-mono text-sm font-bold text-ink">{message}</p>
-      )}
+      {message && <p className="border-[3px] border-ink bg-paper px-3 py-2 font-mono text-sm font-bold text-ink">{message}</p>}
     </form>
   );
 });

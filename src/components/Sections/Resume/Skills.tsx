@@ -6,7 +6,7 @@ export const SkillGroup: FC<PropsWithChildren<{skillGroup: SkillGroupType}>> = m
   const {name, skills} = skillGroup;
   return (
     <div className="flex flex-col border-[3px] border-ink bg-paper p-4 shadow-brutal-sm">
-      <span className="mb-3 w-max border-2 border-ink bg-signal px-2 py-0.5 font-mono text-sm font-bold uppercase tracking-tight text-ink">
+      <span className="mb-3 w-max border-2 border-ink bg-lime px-2 py-0.5 font-mono text-sm font-bold uppercase tracking-tight text-ink">
         {name}
       </span>
       <div className="flex flex-col gap-y-3">
@@ -28,7 +28,7 @@ export const Skill: FC<{skill: SkillType}> = memo(({skill}) => {
     <div className="flex flex-col gap-y-1">
       <span className="font-mono text-xs font-bold text-ink">{name}</span>
       <div className="h-5 w-full border-2 border-ink bg-white">
-        <div className="h-full bg-signal" style={{width: `${percentage}%`}} />
+        <div className="h-full bg-flare" style={{width: `${percentage}%`}} />
       </div>
     </div>
   );
