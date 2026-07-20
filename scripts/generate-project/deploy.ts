@@ -11,7 +11,7 @@ import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 
 import {config} from './config';
-import {GeneratedFile, Idea} from './anthropic';
+import {GeneratedFile, Idea} from './claude';
 
 /** A fixed, human-controlled Dockerfile — the model never writes container config. */
 const DOCKERFILE = `FROM nginx:alpine
