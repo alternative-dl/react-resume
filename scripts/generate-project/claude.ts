@@ -34,22 +34,38 @@ function runClaude(prompt: string, model: string): string {
   delete env.ANTHROPIC_API_KEY;
   delete env.ANTHROPIC_AUTH_TOKEN;
 
-  const stdout = execFileSync(
-    config.claudeBin,
-    [
-      '-p',
-      prompt,
-      '--output-format',
-      'json',
-      '--model',
-      model,
-      '--disallowedTools',
-      NO_TOOLS,
-      '--append-system-prompt',
-      'You are a code generator invoked non-interactively. Reply with ONLY the requested JSON — no prose, no explanation, no markdown fences unless asked.',
-    ],
-    {encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, env},
-  );
+  const args = [
+    '-p',
+    prompt,
+    '--output-format',
+    'json',
+    '--model',
+    model,
+    '--disallowedTools',
+    NO_TOOLS,
+    '--append-system-prompt',
+    'You are a code generator invoked non-interactively. Reply with ONLY the requested JSON — no prose, no explanation, no markdown fences unless asked.',
+  ];
+
+  let stdout: string;
+  try {
+    stdout = execFileSync(config.claudeBin, args, {encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, env});
+  } catch (e) {
+    // execFileSync swallows the child's stderr into the error object — surface it,
+    // otherwise all we get is a useless "Command failed" with no reason.
+    const err = e as {status?: number; stderr?: string | Buffer; stdout?: string | Buffer};
+    const stderr = (err.stderr ?? '').toString().trim();
+    const out = (err.stdout ?? '').toString().trim();
+    const hint = !env.CLAUDE_CODE_OAUTH_TOKEN
+      ? '\n  hint: CLAUDE_CODE_OAUTH_TOKEN is not set — in CI this must be a repo secret from `claude setup-token`.'
+      : '';
+    throw new Error(
+      `\`${config.claudeBin}\` exited ${err.status ?? '?'}.` +
+        `\n  stderr: ${stderr || '(empty)'}` +
+        `\n  stdout: ${out.slice(0, 800) || '(empty)'}` +
+        hint,
+    );
+  }
 
   const envelope = JSON.parse(stdout) as {
     is_error?: boolean;
