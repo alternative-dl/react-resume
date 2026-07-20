@@ -1,0 +1,21 @@
+{
+  "name": "generate-project",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Monthly LLM-generated portfolio project pipeline (isolated from the Next app).",
+  "scripts": {
+    "generate": "tsx generate.ts",
+    "dry-run": "tsx generate.ts --dry-run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.112.3",
+    "playwright": "^1.61.1",
+    "tsx": "^4.23.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.5",
+    "typescript": "^5.3.2"
+  }
+}

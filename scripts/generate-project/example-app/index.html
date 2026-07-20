@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>Collatz Orbits</title>
+    <style>
+      :root { color-scheme: dark; }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: ui-monospace, "SF Mono", Menlo, monospace;
+        background: #0a0a0a;
+        color: #f5f1e8;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      header { padding: 24px 24px 8px; }
+      h1 { margin: 0; font-size: 28px; letter-spacing: -0.5px; color: #ffe600; }
+      p.sub { margin: 6px 0 0; opacity: 0.75; font-size: 14px; }
+      .controls { display: flex; gap: 8px; flex-wrap: wrap; padding: 12px 24px; }
+      input, button {
+        font: inherit;
+        border: 2px solid #f5f1e8;
+        background: #0a0a0a;
+        color: #f5f1e8;
+        padding: 8px 12px;
+      }
+      button { cursor: pointer; background: #ffe600; color: #0a0a0a; font-weight: 700; }
+      button:hover { background: #b4ff3d; }
+      canvas { flex: 1; width: 100%; display: block; }
+      footer { padding: 10px 24px; font-size: 12px; opacity: 0.6; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Collatz Orbits</h1>
+      <p class="sub">The 3n+1 hailstone sequence, plotted. Add seeds and watch their orbits race to 1.</p>
+    </header>
+    <div class="controls">
+      <input id="seed" inputmode="numeric" placeholder="enter a number" value="27" />
+      <button id="add">Add orbit</button>
+      <button id="clear">Clear</button>
+    </div>
+    <canvas id="c"></canvas>
+    <footer>Vanilla JS · no dependencies · deployed as a static demo</footer>
+    <script>
+      const palette = ['#ffe600', '#ff5c7c', '#4dd4e8', '#b4ff3d', '#f5f1e8'];
+      const orbits = [];
+
+      function collatz(n) {
+        const seq = [n];
+        let guard = 0;
+        while (n !== 1 && guard++ < 100000) {
+          n = n % 2 === 0 ? n / 2 : 3 * n + 1;
+          seq.push(n);
+        }
+        return seq;
+      }
+
+      function addOrbit(n) {
+        if (!Number.isFinite(n) || n < 1) return;
+        orbits.push({seq: collatz(Math.floor(n)), color: palette[orbits.length % palette.length]});
+        draw();
+      }
+
+      const canvas = document.getElementById('c');
+      const ctx = canvas.getContext('2d');
+
+      function draw() {
+        const dpr = window.devicePixelRatio || 1;
+        const w = canvas.clientWidth,
+          h = canvas.clientHeight;
+        canvas.width = w * dpr;
+        canvas.height = h * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.clearRect(0, 0, w, h);
+        if (!orbits.length) return;
+
+        const maxLen = Math.max(...orbits.map(o => o.seq.length));
+        const maxVal = Math.max(...orbits.flatMap(o => o.seq));
+        const pad = 32;
+        const sx = x => pad + (x / (maxLen - 1 || 1)) * (w - 2 * pad);
+        const sy = v => h - pad - (Math.log(v) / Math.log(maxVal || 2)) * (h - 2 * pad);
+
+        for (const {seq, color} of orbits) {
+          ctx.strokeStyle = color;
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          seq.forEach((v, i) => (i ? ctx.lineTo(sx(i), sy(v)) : ctx.moveTo(sx(i), sy(v))));
+          ctx.stroke();
+        }
+      }
+
+      document.getElementById('add').onclick = () => addOrbit(parseInt(document.getElementById('seed').value, 10));
+      document.getElementById('clear').onclick = () => {
+        orbits.length = 0;
+        draw();
+      };
+      window.addEventListener('resize', draw);
+      [27, 97, 703].forEach(addOrbit);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,5 @@
+{
+  "slug": "collatz-orbits",
+  "title": "Collatz Orbits",
+  "description": "An interactive visualizer that plots the hailstone sequence of any number and races several seeds at once."
+}
