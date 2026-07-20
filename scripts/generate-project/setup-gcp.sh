@@ -86,7 +86,9 @@ cat <<EOF
 
   Secret  GCP_WORKLOAD_IDENTITY_PROVIDER = ${PROVIDER_RESOURCE}
   Secret  GCP_SERVICE_ACCOUNT           = ${SA_EMAIL}
-  Secret  ANTHROPIC_API_KEY             = <your Anthropic API key>
+  Secret  CLAUDE_CODE_OAUTH_TOKEN       = <run: claude setup-token>
+
+  Do NOT set ANTHROPIC_API_KEY — it overrides the subscription token and bills per-token.
 
   (optional) Variable GCP_PROJECT = ${PROJECT}
   (optional) Variable GCP_REGION  = europe-west2

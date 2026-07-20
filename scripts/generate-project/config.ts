@@ -17,11 +17,16 @@ export const config = {
   gcpProject: process.env.GCP_PROJECT ?? 'leebot-dev',
   /** Cloud Run region. */
   gcpRegion: process.env.GCP_REGION ?? 'europe-west2',
-  /** Model that writes the app. Opus for quality; override to a cheaper tier if desired. */
-  model: process.env.ANTHROPIC_MODEL ?? 'claude-opus-4-8',
-  /** Model that brainstorms the idea (cheaper is fine). */
-  ideaModel: process.env.ANTHROPIC_IDEA_MODEL ?? 'claude-haiku-4-5-20251001',
-  apiKey: process.env.ANTHROPIC_API_KEY ?? '',
+  /**
+   * Generation runs through the Claude Code CLI (headless), authenticated with
+   * a Max-subscription token (CLAUDE_CODE_OAUTH_TOKEN) rather than a paid API
+   * key — so usage draws from the Max plan instead of per-token API billing.
+   */
+  claudeBin: process.env.CLAUDE_BIN ?? 'claude',
+  /** Model that writes the app. Opus for quality. */
+  claudeModel: process.env.CLAUDE_MODEL ?? 'claude-opus-4-8',
+  /** Model that brainstorms the idea (a cheaper tier is fine). */
+  claudeIdeaModel: process.env.CLAUDE_IDEA_MODEL ?? 'claude-haiku-4-5',
 
   /** Where generated app sources are written (one folder per project). */
   generatedAppsDir: path.join(repoRoot, 'generated-projects'),

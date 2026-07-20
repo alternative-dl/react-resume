@@ -12,7 +12,7 @@
  * The run date is passed in (scripts can't read the clock in CI deterministically):
  *   RUN_DATE=2026-08-01 npx tsx scripts/generate-project/generate.ts
  */
-import {pickIdea, generateApp} from './anthropic';
+import {pickIdea, generateApp} from './claude';
 import {config, ProjectRecord} from './config';
 import {deploy, screenshot, writeApp} from './deploy';
 import {readManifest, regenerateModule, writeManifest} from './manifest';

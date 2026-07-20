@@ -5,6 +5,10 @@ self-contained web demo, deploys it to **Cloud Run** on `leebot-dev`,
 screenshots it, and opens a **pull request** adding it to the portfolio.
 You review the PR (Vercel builds a preview) and merge to publish.
 
+Generation runs through the **Claude Code CLI (headless)**, authenticated with a
+**Max-subscription token** (`CLAUDE_CODE_OAUTH_TOKEN`) — so it draws from the Max
+plan instead of per-token API billing. No `ANTHROPIC_API_KEY` is used.
+
 ```
 idea (Claude)  ─▶  static app (Claude)  ─▶  Cloud Run deploy  ─▶  screenshot
                                                                      │
@@ -19,7 +23,7 @@ touches the Next app's dependencies.
 | File | Role |
 | --- | --- |
 | `generate.ts` | Orchestrator (idea → app → deploy → screenshot → data) |
-| `anthropic.ts` | Claude calls (forced-tool structured output) |
+| `claude.ts` | Headless Claude Code CLI calls (idea + app generation) |
 | `deploy.ts` | Writes app + fixed nginx Dockerfile, `gcloud run deploy`, Playwright screenshot |
 | `manifest.ts` | Owns `src/data/generatedProjects.json` + regenerates `generatedProjects.ts` |
 | `config.ts` | Env-driven config |
@@ -53,8 +57,10 @@ npx playwright install chromium
 # Dry run — no API key, no cloud. Uses example-app/, screenshots via file://.
 npm run dry-run
 
-# Real run — needs an Anthropic key and gcloud auth with deploy rights.
-ANTHROPIC_API_KEY=sk-... GCP_PROJECT=leebot-dev npm run generate
+# Real run — needs the `claude` CLI logged in (or CLAUDE_CODE_OAUTH_TOKEN set)
+# and gcloud auth with deploy rights.
+npm install -g @anthropic-ai/claude-code   # if not already installed
+GCP_PROJECT=leebot-dev npm run generate
 ```
 
 After a run, reset dry-run artifacts with `git checkout` / `git clean` if you
@@ -67,15 +73,23 @@ don't want to keep them.
    cd scripts/generate-project
    REPO="alternative-dl/react-resume" ./setup-gcp.sh
    ```
-   It prints the three GitHub secrets to add.
+   It prints the two GCP GitHub secrets to add.
 
-2. **GitHub secrets** (Settings → Secrets and variables → Actions):
-   - `ANTHROPIC_API_KEY`
+2. **Claude subscription token** — mint one from your Max login:
+   ```bash
+   claude setup-token
+   ```
+   Copy the printed token into the `CLAUDE_CODE_OAUTH_TOKEN` secret below.
+
+3. **GitHub secrets** (Settings → Secrets and variables → Actions):
+   - `CLAUDE_CODE_OAUTH_TOKEN` — from `claude setup-token` (draws on your Max plan)
    - `GCP_WORKLOAD_IDENTITY_PROVIDER`
    - `GCP_SERVICE_ACCOUNT`
    - optional repo *variables*: `GCP_PROJECT`, `GCP_REGION`
+   - Do **not** set `ANTHROPIC_API_KEY` — it would override the subscription
+     token and bill per-token.
 
-3. Trigger a first run manually from the **Actions → Monthly project → Run workflow**
+4. Trigger a first run manually from the **Actions → Monthly project → Run workflow**
    button to confirm the pipeline before waiting for the cron.
 
 ## Guardrails
