@@ -14,7 +14,6 @@ import portfolioformulastudent from '../images/portfolio/portfolioformulastudent
 import portfoliokex from '../images/portfolio/portfoliokex.png'
 import profilePic from '../images/profilepic.jpg';
 import testimonialImage from '../images/testimonial.webp';
-import {generatedProjects} from './generatedProjects';
 import {
   About,
   ContactSection,
@@ -27,6 +26,7 @@ import {
   TestimonialSection,
   TimelineItem,
 } from './dataDef';
+import {generatedProjects} from './generatedProjects';
 
 /**
  * Page meta data
