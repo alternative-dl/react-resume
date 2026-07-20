@@ -12,7 +12,9 @@
 set -euo pipefail
 
 PROJECT="${GCP_PROJECT:-leebot-dev}"
-REPO="${REPO:?Set REPO to your GitHub owner/repo, e.g. alternative-dl/react-resume}"
+# Default REPO from the git origin remote (owner/repo); override by exporting REPO.
+REPO="${REPO:-$(git config --get remote.origin.url 2>/dev/null | sed -E 's#^(git@|https://|ssh://git@)github.com[:/]##; s#\.git$##')}"
+REPO="${REPO:?Could not detect the GitHub repo. Set it explicitly: REPO=owner/repo $0}"
 SA_NAME="monthly-project"
 POOL="github-pool"
 PROVIDER="github-provider"
