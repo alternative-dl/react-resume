@@ -15,7 +15,7 @@ export default function Document() {
           - https://bugs.chromium.org/p/chromium/issues/detail?id=872770 */}
         <meta content="notranslate" name="google" />
       </Head>
-      <body className="bg-black">
+      <body className="bg-[#f5f1e8]">
         <Main />
         <NextScript />
       </body>

@@ -1,7 +1,6 @@
 import classNames from 'classnames';
-import {FC, memo, UIEventHandler, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {FC, memo, UIEventHandler, useCallback, useEffect, useRef, useState} from 'react';
 
-import {isApple, isMobile} from '../../config';
 import {SectionId, testimonial} from '../../data/data';
 import type {Testimonial as TestimonialType} from '../../data/dataDef';
 import useInterval from '../../hooks/useInterval';
@@ -9,27 +8,18 @@ import useWindow from '../../hooks/useWindow';
 import QuoteIcon from '../Icon/QuoteIcon';
 import Section from '../Layout/Section';
 
+const TICKER_TEXT = 'Testimonials // References // Kind words // ';
+
 const Testimonials: FC = memo(() => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [scrollValue, setScrollValue] = useState(0);
-  const [parallaxEnabled, setParallaxEnabled] = useState(false);
 
   const itemWidth = useRef(0);
   const scrollContainer = useRef<HTMLDivElement>(null);
 
   const {width} = useWindow();
 
-  const {imageSrc, testimonials} = testimonial;
-
-  const resolveSrc = useMemo(() => {
-    if (!imageSrc) return undefined;
-    return typeof imageSrc === 'string' ? imageSrc : imageSrc.src;
-  }, [imageSrc]);
-
-  // Mobile iOS doesn't allow background-fixed elements
-  useEffect(() => {
-    setParallaxEnabled(!(isMobile && isApple));
-  }, []);
+  const {testimonials} = testimonial;
 
   useEffect(() => {
     itemWidth.current = scrollContainer.current ? scrollContainer.current.offsetWidth : 0;
@@ -62,7 +52,7 @@ const Testimonials: FC = memo(() => {
     setScrollValue(event.currentTarget.scrollLeft);
   }, []);
 
-  useInterval(next, 10000);
+  useInterval(next, testimonials.length > 1 ? 10000 : null);
 
   // If no testimonials, don't render the section
   if (!testimonials.length) {
@@ -72,42 +62,48 @@ const Testimonials: FC = memo(() => {
   return (
     <Section noPadding sectionId={SectionId.Testimonials}>
       <div
-        className={classNames(
-          'flex w-full items-center justify-center bg-cover bg-center px-4 py-16 md:py-24 lg:px-8',
-          parallaxEnabled && 'bg-fixed',
-          {'bg-neutral-700': !imageSrc},
-        )}
-        style={imageSrc ? {backgroundImage: `url(${resolveSrc}`} : undefined}>
-        <div className="z-10 w-full max-w-screen-md px-4 lg:px-0">
-          <div className="flex flex-col items-center gap-y-6 border-[4px] border-ink bg-paper p-6 shadow-brutal-lg">
-            <div
-              className="no-scrollbar flex w-full touch-pan-x snap-x snap-mandatory gap-x-6 overflow-x-auto scroll-smooth"
-              onScroll={handleScroll}
-              ref={scrollContainer}>
-              {testimonials.map((testimonial, index) => {
-                const isActive = index === activeIndex;
-                return (
-                  <Testimonial isActive={isActive} key={`${testimonial.name}-${index}`} testimonial={testimonial} />
-                );
-              })}
-            </div>
-            <div className="flex gap-x-4">
-              {[...Array(testimonials.length)].map((_, index) => {
-                const isActive = index === activeIndex;
-                return (
-                  <button
-                    className={classNames(
-                      'h-4 w-4 border-2 border-ink transition-all duration-300',
-                      isActive ? 'bg-flare' : 'bg-paper',
-                    )}
-                    disabled={isActive}
-                    key={`select-button-${index}`}
-                    onClick={setTestimonial(index)}></button>
-                );
-              })}
+        className="flex w-full flex-col items-center bg-paper"
+        style={{
+          backgroundImage:
+            'linear-gradient(rgba(10,10,10,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.07) 1px, transparent 1px)',
+          backgroundSize: '44px 44px',
+        }}>
+        <Ticker />
+        <div className="flex w-full items-center justify-center px-4 py-16 md:py-24 lg:px-8">
+          <div className="z-10 w-full max-w-screen-md px-4 lg:px-0">
+            <div className="flex flex-col items-center gap-y-6 border-[4px] border-ink bg-paper p-6 shadow-brutal-lg">
+              <div
+                className="no-scrollbar flex w-full touch-pan-x snap-x snap-mandatory gap-x-6 overflow-x-auto scroll-smooth"
+                onScroll={handleScroll}
+                ref={scrollContainer}>
+                {testimonials.map((testimonial, index) => {
+                  const isActive = index === activeIndex;
+                  return (
+                    <Testimonial isActive={isActive} key={`${testimonial.name}-${index}`} testimonial={testimonial} />
+                  );
+                })}
+              </div>
+              {testimonials.length > 1 && (
+                <div className="flex gap-x-4">
+                  {[...Array(testimonials.length)].map((_, index) => {
+                    const isActive = index === activeIndex;
+                    return (
+                      <button
+                        className={classNames(
+                          'h-4 w-4 border-2 border-ink transition-all duration-300',
+                          isActive ? 'bg-signal' : 'bg-paper',
+                        )}
+                        disabled={isActive}
+                        key={`select-button-${index}`}
+                        onClick={setTestimonial(index)}></button>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
         </div>
+        <Ticker reverse />
       </div>
     </Section>
   );
@@ -122,7 +118,7 @@ const Testimonial: FC<{testimonial: TestimonialType; isActive: boolean}> = memo(
       )}>
       {image ? (
         <div className="relative h-16 w-16 shrink-0 sm:h-20 sm:w-20">
-          <QuoteIcon className="absolute -left-2 -top-2 z-10 h-5 w-5 stroke-ink text-acid" />
+          <QuoteIcon className="absolute -left-2 -top-2 z-10 h-5 w-5 stroke-ink text-signal" />
           <img className="h-full w-full border-[3px] border-ink object-cover" src={image} />
         </div>
       ) : (
@@ -135,5 +131,23 @@ const Testimonial: FC<{testimonial: TestimonialType; isActive: boolean}> = memo(
     </div>
   ),
 );
+
+const Ticker: FC<{reverse?: boolean}> = memo(({reverse = false}) => {
+  const content = TICKER_TEXT.repeat(6);
+  return (
+    <div className="w-full overflow-hidden border-y-[3px] border-ink bg-ink py-2">
+      <div
+        className="flex w-max animate-marquee whitespace-nowrap font-mono text-sm font-bold uppercase tracking-widest text-paper"
+        style={reverse ? {animationDirection: 'reverse'} : undefined}>
+        <span className="pr-8">{content}</span>
+        <span aria-hidden="true" className="pr-8">
+          {content}
+        </span>
+      </div>
+    </div>
+  );
+});
+
+Ticker.displayName = 'Ticker';
 
 export default Testimonials;

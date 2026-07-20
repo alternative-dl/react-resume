@@ -9,10 +9,10 @@ const TimelineItem: FC<{item: TimelineItemType}> = memo(({item}) => {
       <div className="flex flex-col gap-y-2 pb-3">
         <h2 className="font-display text-lg font-bold uppercase tracking-tight text-ink sm:text-xl">{title}</h2>
         <div className="flex flex-wrap items-center gap-2">
-          <span className="border-2 border-ink bg-acid px-2 py-0.5 font-mono text-xs font-bold uppercase text-ink">
+          <span className="border-2 border-ink bg-signal px-2 py-0.5 font-mono text-xs font-bold uppercase text-ink">
             {location}
           </span>
-          <span className="border-2 border-ink bg-sky px-2 py-0.5 font-mono text-xs font-bold text-ink">{date}</span>
+          <span className="border-2 border-ink bg-paper px-2 py-0.5 font-mono text-xs font-bold text-ink">{date}</span>
         </div>
       </div>
       <div className="font-mono text-sm leading-relaxed text-ink">{content}</div>

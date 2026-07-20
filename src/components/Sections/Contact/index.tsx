@@ -25,10 +25,13 @@ const ContactValueMap: Record<ContactType, ContactValue> = {
 const Contact: FC = memo(() => {
   const {headerText, description, items} = contact;
   return (
-    <Section className="border-t-[3px] border-ink bg-acid" sectionId={SectionId.Contact}>
+    <Section className="border-t-[3px] border-ink bg-signal" sectionId={SectionId.Contact}>
       <div className="flex flex-col gap-y-8">
         <div className="flex flex-col gap-4 md:flex-row md:items-center">
-          <EnvelopeIcon className="hidden h-14 w-14 border-[3px] border-ink bg-paper p-2 text-ink shadow-brutal-sm md:block" strokeWidth={2} />
+          <EnvelopeIcon
+            className="hidden h-14 w-14 border-[3px] border-ink bg-paper p-2 text-ink shadow-brutal-sm md:block"
+            strokeWidth={2}
+          />
           <h2 className="w-max border-[3px] border-ink bg-paper px-4 py-2 font-display text-2xl font-bold uppercase tracking-tight text-ink shadow-brutal sm:text-3xl">
             {headerText}
           </h2>

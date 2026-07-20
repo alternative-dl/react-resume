@@ -1,17 +1,12 @@
-import {
-  AcademicCapIcon,
-  ArrowDownTrayIcon,
-  CalendarIcon,
-  MapIcon,
-  SparklesIcon,
-} from '@heroicons/react/24/outline';
+import {AcademicCapIcon, ArrowDownTrayIcon, CalendarIcon, MapIcon, SparklesIcon} from '@heroicons/react/24/outline';
 
 import GithubIcon from '../components/Icon/GithubIcon';
 import InstagramIcon from '../components/Icon/InstagramIcon';
 import LinkedInIcon from '../components/Icon/LinkedInIcon';
 import heroImage from '../images/header-background.webp';
 import portfolioformulastudent from '../images/portfolio/portfolioformulastudent.png';
-import portfoliokex from '../images/portfolio/portfoliokex.png'
+import portfoliokex from '../images/portfolio/portfoliokex.png';
+import portfoliothesis from '../images/portfolio/portfoliothesis.png';
 import profilePic from '../images/profilepic.jpg';
 import testimonialImage from '../images/testimonial.webp';
 import {
@@ -60,25 +55,25 @@ export const heroData: Hero = {
   description: (
     <>
       <p className="font-mono text-sm leading-relaxed text-ink sm:text-base">
-        I'm a <strong className="bg-acid px-1 font-bold text-ink">Data Analyst</strong> and{' '}
-        <strong className="bg-acid px-1 font-bold text-ink">AI Engineer</strong> based between{' '}
-        <strong className="bg-sky px-1 font-bold text-ink">Stockholm</strong> and{' '}
-        <strong className="bg-sky px-1 font-bold text-ink">Granada</strong>, finishing a combined bachelor's &
-        master's at the <strong className="font-bold text-ink underline decoration-flare decoration-[3px] underline-offset-2">Royal Institute of Technology (KTH)</strong>. I co-founded{' '}
-        <strong className="bg-flare px-1 font-bold text-ink">CommodIQ</strong> (CTO) and{' '}
-        <strong className="bg-flare px-1 font-bold text-ink">ARIFY</strong>, and work as a Data Scientist & AI Engineer
-        at <strong className="bg-lime px-1 font-bold text-ink">Pricer</strong>.
+        I'm a <strong className="bg-signal px-1 font-bold text-ink">Data Analyst</strong> and{' '}
+        <strong className="bg-signal px-1 font-bold text-ink">AI Engineer</strong> based between{' '}
+        <strong className="font-bold text-ink">Stockholm</strong> and{' '}
+        <strong className="font-bold text-ink">Granada</strong>, finishing a combined bachelor's & master's at the{' '}
+        <strong className="font-bold text-ink">Royal Institute of Technology (KTH)</strong>. I co-founded{' '}
+        <strong className="font-bold text-ink">CommodIQ</strong> (CTO) and{' '}
+        <strong className="font-bold text-ink">ARIFY</strong>, and work as a Data Scientist & AI Engineer at{' '}
+        <strong className="font-bold text-ink">Pricer</strong>.
       </p>
       <p className="font-mono text-sm leading-relaxed text-ink sm:text-base">
-        Off the clock: <strong className="font-bold text-ink underline decoration-ink decoration-[3px] underline-offset-2">piano &amp; guitar</strong>,{' '}
-        <strong className="font-bold text-ink underline decoration-ink decoration-[3px] underline-offset-2">golf</strong>, and{' '}
-        <strong className="font-bold text-ink underline decoration-ink decoration-[3px] underline-offset-2">Formula One</strong> on race weekends.
+        Off the clock: <strong className="font-bold text-ink">piano &amp; guitar</strong>,{' '}
+        <strong className="font-bold text-ink">golf</strong>, and{' '}
+        <strong className="font-bold text-ink">Formula One</strong> on race weekends.
       </p>
     </>
   ),
   actions: [
     {
-      href: '/assets/Didrik Liu\'s CV.pdf',
+      href: "/assets/Didrik Liu's CV.pdf",
       text: 'Resume',
       primary: true,
       Icon: ArrowDownTrayIcon,
@@ -107,7 +102,7 @@ const calculateAge = (birthDate: Date): number => {
   return age;
 };
 
-const birthDate = new Date(2000, 6, 9)
+const birthDate = new Date(2000, 6, 9);
 
 export const aboutData: About = {
   profileImageSrc: profilePic,
@@ -219,7 +214,7 @@ export const portfolioItems: PortfolioItem[] = [
     description:
       'High-Frequency Retail Pricing Data as an Inflation Indicator: Comovement and Forecasting in the Eurozone',
     url: '/assets/High-Frequency Retail Pricing Data as an Inflation Indicator.pdf',
-    image: heroImage,
+    image: portfoliothesis,
   },
   {
     title: 'KTH Formula Student',
@@ -261,9 +256,9 @@ export const experience: TimelineItem[] = [
     content: (
       <p>
         Co-founded CommodIQ as the sole technical lead. Built CI/CD pipelines and platform infrastructure on GCP and
-        Supabase, and designed a self-improvement loop for the AI system — including a golden dataset and Promptfoo-based
-        systems testing. Consult on structured platforming with least-privilege access and secure-by-design principles
-        to prepare for ISO audits.
+        Supabase, and designed a self-improvement loop for the AI system — including a golden dataset and
+        Promptfoo-based systems testing. Consult on structured platforming with least-privilege access and
+        secure-by-design principles to prepare for ISO audits.
       </p>
     ),
   },
@@ -335,8 +330,13 @@ export const testimonial: TestimonialSection = {
   testimonials: [
     {
       name: 'Serge de Gosson de Varennes',
-      text: 'One of the most impressive aspects of Didrik\'s internship was his adeptness at problem-solving, his constant search for way of solving problems with new ideas combining different methods and data.',
-      image: 'https://img-0.journaldunet.com/xLlkzXC63gDdcushr3kQuWU5JL0=/200x/smart/be409eb37b16499c833dc387f7d15c1f/user-jdn/39490182-serge-de-gosson-de-varennes.jpg',
+      text: "One of the most impressive aspects of Didrik's internship was his adeptness at problem-solving, his constant search for way of solving problems with new ideas combining different methods and data.",
+      image:
+        'https://img-0.journaldunet.com/xLlkzXC63gDdcushr3kQuWU5JL0=/200x/smart/be409eb37b16499c833dc387f7d15c1f/user-jdn/39490182-serge-de-gosson-de-varennes.jpg',
+    },
+    {
+      name: 'Torbjörn Johansson',
+      text: 'His technical proficiency and analytical mindset have proved valuable in turning complex problems into clear and executable solutions for us.',
     },
   ],
 };
@@ -346,7 +346,7 @@ export const testimonial: TestimonialSection = {
  */
 export const contact: ContactSection = {
   headerText: 'Get in touch.',
-  description: 'Don\'t hestitate to contact me on LinkedIn or Email!',
+  description: "Don't hestitate to contact me on LinkedIn or Email!",
   items: [
     {
       type: ContactType.Email,
