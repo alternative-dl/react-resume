@@ -15,7 +15,6 @@ module.exports = {
         mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
       },
       animation: {
-        blink: 'blink 1.1s step-end infinite',
         marquee: 'marquee 24s linear infinite',
         'pop-in': 'pop-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both',
       },
@@ -25,10 +24,6 @@ module.exports = {
         'brutal-lg': '10px 10px 0 0 #0a0a0a',
       },
       keyframes: {
-        blink: {
-          '0%, 100%': {opacity: '1'},
-          '50%': {opacity: '0'},
-        },
         marquee: {
           '0%': {transform: 'translateX(0%)'},
           '100%': {transform: 'translateX(-50%)'},
