@@ -23,10 +23,6 @@ const Hero: FC = memo(() => {
               className="font-display text-5xl font-bold uppercase leading-none tracking-tighter text-ink motion-safe:animate-pop-in sm:text-6xl lg:text-7xl"
               style={{animationDelay: '120ms'}}>
               {name}
-              <span
-                aria-hidden="true"
-                className="ml-2 inline-block h-[0.8em] w-[0.5em] bg-signal align-baseline motion-safe:animate-blink"
-              />
             </h1>
             <div
               className="flex flex-col gap-y-3 text-left motion-safe:animate-pop-in"
