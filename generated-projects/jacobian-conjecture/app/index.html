@@ -314,6 +314,30 @@
       footer a {
         color: var(--ink);
       }
+      .backlink {
+        justify-self: start;
+        display: inline-block;
+        border: 3px solid var(--ink);
+        background: var(--signal);
+        color: var(--ink);
+        padding: 9px 14px;
+        margin-bottom: 8px;
+        font-family: var(--sans);
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        text-decoration: none;
+        box-shadow: 4px 4px 0 0 var(--ink);
+        transition: transform 0.06s, box-shadow 0.06s;
+      }
+      .backlink:hover {
+        transform: translate(2px, 2px);
+        box-shadow: 2px 2px 0 0 var(--ink);
+      }
+      .backlink:focus-visible {
+        outline: 3px solid var(--ink);
+        outline-offset: 3px;
+      }
       .caption {
         font-size: 12px;
         letter-spacing: 0.06em;
@@ -468,7 +492,12 @@
     </section>
 
     <footer>
-      <div>Visualization by Didrik Liu · map by L. Alpöge &amp; Claude Fable (2026) · conjecture by O.-H. Keller (1939).</div>
+      <a class="backlink" href="https://didrikliu.com" target="_blank" rel="noopener">↩ More of my work — didrikliu.com</a>
+      <div>
+        Visualization by
+        <a href="https://didrikliu.com" target="_blank" rel="noopener">Didrik Liu</a>
+        · map by L. Alpöge &amp; Claude Fable (2026) · conjecture by O.-H. Keller (1939).
+      </div>
       <div>
         Reporting:
         <a href="https://gigazine.net/gsc_news/en/20260721-claude-fable-5-jacobian-conjecture/" target="_blank" rel="noopener">GIGAZINE</a>
