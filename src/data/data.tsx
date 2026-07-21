@@ -340,6 +340,14 @@ export const testimonial: TestimonialSection = {
       text: 'One of the most impressive aspects of Didrik\'s internship was his adeptness at problem-solving, his constant search for way of solving problems with new ideas combining different methods and data.',
       image: 'https://img-0.journaldunet.com/xLlkzXC63gDdcushr3kQuWU5JL0=/200x/smart/be409eb37b16499c833dc387f7d15c1f/user-jdn/39490182-serge-de-gosson-de-varennes.jpg',
     },
+    {
+      name: 'Torbjörn Johansson, VP IT & Security · Pricer',
+      text: 'Didrik has demonstrated a high level of expertise in Pricer\'s BI platform (Qlik) and cloud-native enterprise data integration on GCP, consistently delivering high-quality solutions. His technical proficiency and analytical mindset turn complex problems into clear, executable solutions — he is solution-oriented, highly motivated, and has consistently delivered great results.',
+    },
+    {
+      name: 'Alexandre Moch, Head of Business Relations',
+      text: 'Didrik has demonstrated skills in problem-solving, teamwork, and leadership, and has consistently displayed a positive attitude and willingness to learn.',
+    },
   ],
 };
 

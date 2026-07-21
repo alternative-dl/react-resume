@@ -16,7 +16,6 @@ module.exports = {
       },
       animation: {
         blink: 'blink 1.1s step-end infinite',
-        'grid-pan': 'grid-pan 8s linear infinite',
         marquee: 'marquee 24s linear infinite',
         'pop-in': 'pop-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both',
       },
@@ -29,10 +28,6 @@ module.exports = {
         blink: {
           '0%, 100%': {opacity: '1'},
           '50%': {opacity: '0'},
-        },
-        'grid-pan': {
-          '0%': {backgroundPosition: '0 0'},
-          '100%': {backgroundPosition: '44px 44px'},
         },
         marquee: {
           '0%': {transform: 'translateX(0%)'},
