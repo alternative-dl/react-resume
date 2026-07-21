@@ -73,7 +73,7 @@ jobs:
 
             - Review the live demo linked in `src/data/generatedProjects.json`.
             - Check the generated source under `generated-projects/` — each portfolio card links to it via a "Code" button.
-            - The Cloud Run service runs lean (128Mi / 0.5 vCPU, scale-to-zero, max 1 instance) so an idle demo costs nothing.
+            - The Cloud Run service runs lean (128Mi / 1 vCPU, scale-to-zero, max 1 instance) so an idle demo costs nothing.
             - Merge to publish it on the portfolio (Vercel will redeploy).
           add-paths: |
             src/data/generatedProjects.json

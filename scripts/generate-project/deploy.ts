@@ -57,9 +57,10 @@ export function deploy(idea: Idea, appDir: string): string {
       // These are tiny static nginx sites, so run them as lean as Cloud Run
       // allows: 128Mi is the memory floor, and scale-to-zero (min=0) means an
       // idle demo costs nothing. CPU is throttled to request time by default,
-      // so the fractional 0.5 vCPU is only ever billed while serving a request.
+      // so 1 vCPU is only ever billed while actually serving a request.
+      // (Cloud Run rejects fractional CPU unless concurrency is 1, so keep 1.)
       '--memory=128Mi',
-      '--cpu=0.5',
+      '--cpu=1',
       '--min-instances=0',
       '--max-instances=1',
       '--concurrency=80',
