@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>K-Means Playground</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<main class="app">
+<header class="head">
+<h1>K-Means Playground</h1>
+<p class="sub">Plot points, choose <em>K</em>, and watch the centroids converge to cluster centers in real time.</p>
+</header>
+<div class="layout">
+<section class="stage">
+<canvas id="board"></canvas>
+<div class="hint" id="hint">Click or tap to add points</div>
+</section>
+<aside class="panel">
+<div class="control">
+<label for="k">Clusters (K) <span class="tag" id="kVal">3</span></label>
+<input type="range" id="k" min="2" max="8" step="1" value="3" />
+</div>
+<div class="control">
+<label for="speed">Speed <span class="tag" id="speedVal">Normal</span></label>
+<input type="range" id="speed" min="1" max="10" step="1" value="5" />
+</div>
+<div class="buttons">
+<button id="play" class="btn primary">Run</button>
+<button id="step" class="btn">Step</button>
+</div>
+<div class="buttons">
+<button id="reset" class="btn">Reset centroids</button>
+<button id="random" class="btn">Random points</button>
+</div>
+<div class="buttons">
+<button id="clear" class="btn ghost">Clear all</button>
+</div>
+<dl class="stats">
+<div><dt>Iteration</dt><dd id="iter">0</dd></div>
+<div><dt>Points</dt><dd id="count">0</dd></div>
+<div><dt>Inertia</dt><dd id="inertia">—</dd></div>
+<div><dt>Status</dt><dd id="status">Idle</dd></div>
+</dl>
+</aside>
+</div>
+<footer class="foot">Vanilla HTML · CSS · JS — runs fully offline.</footer>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
