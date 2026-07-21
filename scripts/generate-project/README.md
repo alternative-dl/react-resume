@@ -115,6 +115,6 @@ don't want to keep them.
   portfolio card exposes a **"Code"** link (`ProjectRecord.sourceUrl`) pointing at
   that folder on GitHub — built from `GITHUB_REPOSITORY` + `SOURCE_BRANCH` (`main`).
 - Demos deploy with a **lean, cost-bounded** Cloud Run config (see `deploy.ts`):
-  `--memory=128Mi --cpu=0.5 --min-instances=0 --max-instances=1 --concurrency=80
+  `--memory=128Mi --cpu=1 --min-instances=0 --max-instances=1 --concurrency=80
   --timeout=30`. CPU is request-throttled by default, so with scale-to-zero an
   idle demo bills nothing and a single small instance serves the traffic these get.
