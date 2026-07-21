@@ -1,5 +1,5 @@
 import {StaticImageData} from 'next/image';
-import {FC, ForwardRefExoticComponent, SVGProps} from 'react';
+import {FC, ForwardRefExoticComponent, ReactNode, SVGProps} from 'react';
 
 import {IconProps} from '../components/Icon/Icon';
 
@@ -90,7 +90,7 @@ export interface PortfolioItem {
  */
 export interface TimelineItem {
   date: string;
-  location: string;
+  location: ReactNode;
   title: string;
   content: JSX.Element;
 }
