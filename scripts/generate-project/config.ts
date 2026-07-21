@@ -17,6 +17,14 @@ export const config = {
   gcpProject: process.env.GCP_PROJECT ?? 'leebot-dev',
   /** Cloud Run region. */
   gcpRegion: process.env.GCP_REGION ?? 'europe-west2',
+
+  /**
+   * "owner/repo" the generated source is committed to — used to build the
+   * public "view source" link. GITHUB_REPOSITORY is set automatically in CI.
+   */
+  repoSlug: process.env.GITHUB_REPOSITORY ?? 'alternative-dl/react-resume',
+  /** Branch the merged source lands on (the source link points here). */
+  sourceBranch: process.env.SOURCE_BRANCH ?? 'main',
   /**
    * Generation runs through the Claude Code CLI (headless), authenticated with
    * a Max-subscription token (CLAUDE_CODE_OAUTH_TOKEN) rather than a paid API
@@ -46,6 +54,7 @@ export type ProjectRecord = {
   title: string;
   description: string;
   url: string;
+  sourceUrl: string; // public link to the generated source (GitHub folder)
   image: string; // filename inside imagesDir
   createdAt: string; // ISO date, passed in (scripts can't call Date.now deterministically in CI logs)
 };

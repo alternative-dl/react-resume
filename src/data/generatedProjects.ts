@@ -10,6 +10,7 @@ export const generatedProjects: PortfolioItem[] = [
     title: "Price Path Explorer",
     description: "Interactive Monte Carlo simulator showing how market volatility affects possible asset price futures.",
     url: "https://demo-price-paths-gsjoa373ca-nw.a.run.app",
+    sourceUrl: "https://github.com/alternative-dl/react-resume/tree/main/generated-projects/price-paths",
     image: gen_price_paths,
   },
 ];

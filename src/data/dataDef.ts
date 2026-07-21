@@ -81,6 +81,8 @@ export interface PortfolioItem {
   description: string;
   url: string;
   image: string | StaticImageData;
+  /** Optional public link to the project's source code (shown as a "Code" link). */
+  sourceUrl?: string;
 }
 
 /**

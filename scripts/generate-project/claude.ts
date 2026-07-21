@@ -129,13 +129,36 @@ export function generateApp(idea: Idea): GeneratedFile[] {
 
   const prompt =
     `Build "${idea.title}": ${idea.description}\n\n` +
-    `Requirements:\n` +
+    `This ships to the portfolio of Didrik Liu next to his hand-crafted work, so the bar is high: ` +
+    `it must look intentionally designed, not like a default demo. Sweat the details.\n\n` +
+    `TECHNICAL CONSTRAINTS (hard):\n` +
     `- A single-page static web app. index.html at the root, plus any css/js/asset files.\n` +
     `- Vanilla HTML/CSS/JS ONLY. No frameworks, no bundler, no npm, no CDN <script>/<link> to external hosts, ` +
-    `no fetch to external APIs. Everything must work fully offline from file://.\n` +
-    `- Polished, responsive, works on mobile. Include a short title + one-line explanation on the page.\n` +
-    `- Self-contained and safe: no eval of remote code, no user secrets.\n` +
-    `- Tasteful, minimal aesthetic. It will be screenshotted for a portfolio.\n\n` +
+    `no web fonts, no fetch to external APIs. Everything must work fully offline from file://.\n` +
+    `- Self-contained and safe: no eval of remote code, no user secrets.\n\n` +
+    `DESIGN LANGUAGE — digital brutalism (match Didrik's resume site exactly):\n` +
+    `- Palette, and ONLY these: paper #f5f1e8 (background), ink #0a0a0a (text, borders), ` +
+    `signal #ff4d00 (one accent — use it sparingly and deliberately for emphasis, active states, key data). ` +
+    `Flat fills only; no gradients, no soft/blurred drop-shadows, no rounded corners.\n` +
+    `- Structure is the aesthetic: thick 3–4px solid ink borders on every card, control, and panel; ` +
+    `hard offset shadows with NO blur, e.g. box-shadow: 6px 6px 0 0 #0a0a0a. High contrast everywhere.\n` +
+    `- Type: system stacks only (no web fonts). Display/headings — a heavy sans stack ` +
+    `("system-ui","Segoe UI",Roboto,Helvetica,Arial,sans-serif), bold or 800, UPPERCASE, tight letter-spacing. ` +
+    `Labels/numbers/captions — a monospace stack (ui-monospace,"DejaVu Sans Mono","Courier New",monospace) ` +
+    `with wide tracking. Establish a clear type scale; don't leave anything at browser defaults.\n` +
+    `- Header: a bold UPPERCASE title plus a one-line explainer set as a small badge ` +
+    `(ink border, signal or paper fill, mono text).\n` +
+    `- Controls feel tactile: buttons/sliders/toggles are bordered blocks with a hard shadow that ` +
+    `visibly "presses" on hover/active (translate a couple px toward the shadow and shrink it). ` +
+    `Add clear :focus-visible outlines for keyboard use.\n` +
+    `- Motion is subtle and purposeful only (e.g. a brief pop-in on load); never gratuitous.\n\n` +
+    `CRAFT CHECKLIST (attention to detail — do all of these):\n` +
+    `- Consistent spacing rhythm on a small scale (e.g. 4/8/16/24px); align edges to a grid; nothing cramped or off-by-a-pixel.\n` +
+    `- Style EVERYTHING you use: inputs, buttons, and (minimally) scrollbars — no unstyled default widgets.\n` +
+    `- Fully responsive; the layout must hold up and stay legible from ~360px wide up to desktop.\n` +
+    `- Handle empty/initial/edge states gracefully (no blank screen, no errors before interaction).\n` +
+    `- The app is auto-screenshotted at 1280×800 (2x) ~1.5s after load with no interaction: make that ` +
+    `first paint visually complete and striking — show real content/state, not an empty canvas or a bare form.\n\n` +
     `Reply with ONLY this JSON object (no markdown fences):\n` +
     `{"files": [{"path": "index.html", "content": "..."}, ...]}\n` +
     `Every file the app needs must be included, and index.html must be at the root.`;
