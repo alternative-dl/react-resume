@@ -5,19 +5,15 @@ import {FC, memo} from 'react';
 import {heroData, SectionId} from '../../data/data';
 import Section from '../Layout/Section';
 import Socials from '../Socials';
+import GameOfLifeBackground from './GameOfLifeBackground';
 
 const Hero: FC = memo(() => {
   const {name, description, actions} = heroData;
 
   return (
     <Section noPadding sectionId={SectionId.Hero}>
-      <div
-        className="relative flex h-screen w-full items-center justify-center bg-paper motion-safe:animate-grid-pan"
-        style={{
-          backgroundImage:
-            'linear-gradient(rgba(10,10,10,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.07) 1px, transparent 1px)',
-          backgroundSize: '44px 44px',
-        }}>
+      <div className="relative flex h-screen w-full items-center justify-center overflow-hidden bg-paper">
+        <GameOfLifeBackground />
         <div className="z-10 w-full max-w-screen-lg px-4 lg:px-0">
           <div className="flex flex-col items-start gap-y-6 border-[4px] border-ink bg-paper p-6 shadow-brutal-lg sm:p-8">
             <span className="inline-block border-[3px] border-ink bg-signal px-3 py-1 font-mono text-xs font-bold uppercase tracking-widest text-ink motion-safe:animate-pop-in sm:text-sm">
