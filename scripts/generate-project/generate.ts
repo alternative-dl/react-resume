@@ -40,11 +40,15 @@ async function main() {
   const image = await screenshot(idea, url);
   console.log(`  shot: src/images/portfolio/${image}`);
 
+  const sourceUrl = `https://github.com/${config.repoSlug}/tree/${config.sourceBranch}/generated-projects/${idea.slug}`;
+  console.log(`  src: ${sourceUrl}`);
+
   const record: ProjectRecord = {
     slug: idea.slug,
     title: idea.title,
     description: idea.description,
     url,
+    sourceUrl,
     image,
     createdAt: runDate,
   };

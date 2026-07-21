@@ -11,12 +11,14 @@ export const generatedProjects: PortfolioItem[] = [
     title: "Price Path Explorer",
     description: "Interactive Monte Carlo simulator showing how market volatility affects possible asset price futures.",
     url: "https://demo-price-paths-gsjoa373ca-nw.a.run.app",
+    sourceUrl: "https://github.com/alternative-dl/react-resume/tree/main/generated-projects/price-paths",
     image: gen_price_paths,
   },
   {
     title: "K-Means Playground",
     description: "Interactive K-means clustering—plot points and watch centroids converge live.",
     url: "https://demo-kmeans-playground-gsjoa373ca-nw.a.run.app",
+    sourceUrl: "https://github.com/alternative-dl/react-resume/tree/main/generated-projects/kmeans-playground",
     image: gen_kmeans_playground,
   },
 ];

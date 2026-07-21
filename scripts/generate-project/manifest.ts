@@ -43,7 +43,8 @@ export function regenerateModule(records: ProjectRecord[]): void {
       const title = JSON.stringify(r.title);
       const description = JSON.stringify(r.description);
       const url = JSON.stringify(r.url);
-      return `  {\n    title: ${title},\n    description: ${description},\n    url: ${url},\n    image: ${importName(
+      const sourceUrl = JSON.stringify(r.sourceUrl);
+      return `  {\n    title: ${title},\n    description: ${description},\n    url: ${url},\n    sourceUrl: ${sourceUrl},\n    image: ${importName(
         r.slug,
       )},\n  },`;
     })

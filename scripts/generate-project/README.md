@@ -18,6 +18,13 @@ idea (Claude)  ─▶  static app (Claude)  ─▶  Cloud Run deploy  ─▶  sc
 This is an **isolated mini-package** — it has its own `package.json` and never
 touches the Next app's dependencies.
 
+**Models:** the app is written by **Opus** (`CLAUDE_MODEL`, default `claude-opus-4-8`);
+**Haiku** (`CLAUDE_IDEA_MODEL`) only brainstorms the one-line idea. So polish is
+driven by the design brief in `claude.ts`'s `generateApp` prompt, not the model
+tier — the brief pins each demo to the resume's **digital-brutalism** look
+(paper/ink/signal palette, thick borders, hard offset shadows, mono + heavy
+display type) using system fonts (no web fonts — apps must run offline).
+
 ## Files
 
 | File | Role |
@@ -101,3 +108,13 @@ don't want to keep them.
 - Nothing publishes automatically — every project lands as a reviewable PR.
 - Each generated Cloud Run service is named `demo-<slug>` and stays up; prune old
   ones from the Cloud Run console if they accumulate.
+
+## Source links & Cloud Run sizing
+
+- The generated source is committed to `generated-projects/<slug>/` and each
+  portfolio card exposes a **"Code"** link (`ProjectRecord.sourceUrl`) pointing at
+  that folder on GitHub — built from `GITHUB_REPOSITORY` + `SOURCE_BRANCH` (`main`).
+- Demos deploy with a **lean, cost-bounded** Cloud Run config (see `deploy.ts`):
+  `--memory=128Mi --cpu=0.5 --min-instances=0 --max-instances=1 --concurrency=80
+  --timeout=30`. CPU is request-throttled by default, so with scale-to-zero an
+  idle demo bills nothing and a single small instance serves the traffic these get.

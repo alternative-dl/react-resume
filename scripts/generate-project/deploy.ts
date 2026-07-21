@@ -54,6 +54,16 @@ export function deploy(idea: Idea, appDir: string): string {
       `--region=${config.gcpRegion}`,
       '--allow-unauthenticated',
       '--port=8080',
+      // These are tiny static nginx sites, so run them as lean as Cloud Run
+      // allows: 128Mi is the memory floor, and scale-to-zero (min=0) means an
+      // idle demo costs nothing. CPU is throttled to request time by default,
+      // so the fractional 0.5 vCPU is only ever billed while serving a request.
+      '--memory=128Mi',
+      '--cpu=0.5',
+      '--min-instances=0',
+      '--max-instances=1',
+      '--concurrency=80',
+      '--timeout=30',
       '--quiet',
     ],
     {stdio: 'inherit'},
