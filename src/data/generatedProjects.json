@@ -13,6 +13,7 @@
     "title": "K-Means Playground",
     "description": "Interactive K-means clustering—plot points and watch centroids converge live.",
     "url": "https://demo-kmeans-playground-gsjoa373ca-nw.a.run.app",
+    "sourceUrl": "https://github.com/alternative-dl/react-resume/tree/main/generated-projects/kmeans-playground",
     "image": "generated-kmeans-playground.png",
     "createdAt": "2026-07-20"
   }
