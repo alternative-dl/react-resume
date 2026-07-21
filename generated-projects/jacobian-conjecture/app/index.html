@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>The Jacobian Conjecture, Broken</title>
+    <style>
+      :root {
+        --paper: #f5f1e8;
+        --ink: #0a0a0a;
+        --signal: #ff4d00;
+        --sans: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        --mono: ui-monospace, "DejaVu Sans Mono", "SFMono-Regular", Menlo, "Courier New", monospace;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--mono);
+        -webkit-font-smoothing: antialiased;
+      }
+      body {
+        padding: clamp(16px, 4vw, 48px);
+        max-width: 1120px;
+        margin: 0 auto;
+        line-height: 1.5;
+      }
+      ::selection {
+        background: var(--signal);
+        color: var(--ink);
+      }
+      ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--ink);
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--paper);
+        border-left: 2px solid var(--ink);
+      }
+      h1,
+      h2,
+      .display {
+        font-family: var(--sans);
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: -0.02em;
+        line-height: 0.98;
+      }
+      .badge {
+        display: inline-block;
+        border: 3px solid var(--ink);
+        background: var(--signal);
+        padding: 6px 12px;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+      }
+      header {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        margin-bottom: 28px;
+      }
+      h1 {
+        font-size: clamp(34px, 8vw, 76px);
+      }
+      .lede {
+        font-size: clamp(14px, 2.4vw, 18px);
+        max-width: 68ch;
+      }
+      .panel {
+        border: 4px solid var(--ink);
+        background: var(--paper);
+        box-shadow: 6px 6px 0 0 var(--ink);
+        padding: clamp(16px, 3vw, 28px);
+        margin-bottom: 28px;
+      }
+      .panel-title {
+        font-family: var(--sans);
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: -0.01em;
+        font-size: clamp(18px, 3vw, 26px);
+        border-bottom: 3px solid var(--ink);
+        padding-bottom: 10px;
+        margin-bottom: 16px;
+      }
+      p + p {
+        margin-top: 12px;
+      }
+      .k {
+        font-weight: 700;
+        border-bottom: 2px solid var(--signal);
+      }
+      .map {
+        display: grid;
+        gap: 10px;
+        font-size: clamp(13px, 2.2vw, 16px);
+        overflow-x: auto;
+      }
+      .map div {
+        white-space: nowrap;
+        padding: 10px 12px;
+        border: 3px solid var(--ink);
+        background: var(--paper);
+      }
+      .det {
+        margin-top: 14px;
+        display: inline-block;
+        border: 3px solid var(--ink);
+        background: var(--ink);
+        color: var(--paper);
+        padding: 8px 14px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+      }
+      .det b {
+        color: var(--signal);
+      }
+      .stage {
+        width: 100%;
+        border: 3px solid var(--ink);
+        background: var(--paper);
+        display: block;
+        touch-action: none;
+        cursor: grab;
+      }
+      .stage:active {
+        cursor: grabbing;
+      }
+      .controls {
+        margin-top: 18px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      @media (min-width: 720px) {
+        .controls {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      .sliders label {
+        display: grid;
+        grid-template-columns: 22px 1fr auto;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+        font-weight: 700;
+      }
+      .sliders output {
+        min-width: 6ch;
+        text-align: right;
+      }
+      input[type="range"] {
+        -webkit-appearance: none;
+        appearance: none;
+        height: 8px;
+        background: var(--paper);
+        border: 3px solid var(--ink);
+        outline-offset: 3px;
+      }
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        background: var(--signal);
+        border: 3px solid var(--ink);
+        cursor: pointer;
+      }
+      input[type="range"]::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        background: var(--signal);
+        border: 3px solid var(--ink);
+        cursor: pointer;
+        border-radius: 0;
+      }
+      .btns {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 6px;
+      }
+      button {
+        font-family: var(--mono);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-size: 13px;
+        border: 3px solid var(--ink);
+        background: var(--paper);
+        color: var(--ink);
+        padding: 9px 12px;
+        cursor: pointer;
+        box-shadow: 4px 4px 0 0 var(--ink);
+        transition: transform 0.06s, box-shadow 0.06s;
+      }
+      button:hover {
+        transform: translate(2px, 2px);
+        box-shadow: 2px 2px 0 0 var(--ink);
+      }
+      button:active {
+        transform: translate(4px, 4px);
+        box-shadow: 0 0 0 0 var(--ink);
+      }
+      button.on {
+        background: var(--signal);
+      }
+      button:focus-visible,
+      input:focus-visible {
+        outline: 3px solid var(--ink);
+      }
+      .readout {
+        border: 3px solid var(--ink);
+        background: var(--paper);
+        padding: 14px;
+        display: grid;
+        gap: 8px;
+        font-size: 14px;
+      }
+      .readout .row {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        border-bottom: 2px dotted var(--ink);
+        padding-bottom: 6px;
+      }
+      .readout .row:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+      .readout .row b {
+        color: var(--signal);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+        overflow: hidden;
+      }
+      th,
+      td {
+        border: 3px solid var(--ink);
+        padding: 10px 12px;
+        text-align: left;
+      }
+      th {
+        background: var(--ink);
+        color: var(--paper);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-size: 12px;
+      }
+      td .arrow {
+        color: var(--signal);
+        font-weight: 700;
+      }
+      .note {
+        font-size: 13px;
+        opacity: 0.85;
+      }
+      footer {
+        border-top: 3px solid var(--ink);
+        padding-top: 16px;
+        font-size: 12px;
+        display: grid;
+        gap: 8px;
+      }
+      footer a {
+        color: var(--ink);
+      }
+      .caption {
+        font-size: 12px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        opacity: 0.75;
+        margin-top: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <span class="badge">Algebraic geometry · falsified July 2026</span>
+      <h1>The Jacobian<br />Conjecture, Broken</h1>
+      <p class="lede">
+        For <b>87 years</b> mathematics assumed that any polynomial map whose derivative never degenerates must be
+        reversible. In July 2026 a single explicit map — surfaced by number theorist <b>Levent Alpöge</b> working with
+        <b>Claude Fable</b> — quietly proved that false in dimension&nbsp;3. This page lets you fly around the object that
+        did it.
+      </p>
+    </header>
+
+    <section class="panel">
+      <div class="panel-title">What the conjecture claimed</div>
+      <p>
+        Keller's <span class="k">Jacobian Conjecture</span> (1939): if <b>F: &#8450;<sup>n</sup> &#8594;
+        &#8450;<sup>n</sup></b> is a polynomial map whose Jacobian determinant <b>det&nbsp;JF</b> is a nonzero
+        <em>constant</em>, then F is invertible — in particular it is <b>one-to-one</b>, hitting every point at most once.
+      </p>
+      <p>
+        The hypothesis is deceptively strong. A constant nonzero Jacobian means the map never folds or pinches locally,
+        anywhere. The conjecture says that <em>local</em> non-degeneracy forces <em>global</em> invertibility. Believed
+        by most, resistant to every attack, it sat on Smale's list of great open problems.
+      </p>
+    </section>
+
+    <section class="panel">
+      <div class="panel-title">The map that breaks it</div>
+      <p class="note">
+        F: &#8450;<sup>3</sup> &#8594; &#8450;<sup>3</sup>, coordinates (x,&nbsp;y,&nbsp;z). Built entirely from the
+        factor (1+xy) — a hint at how it was engineered, not stumbled upon.
+      </p>
+      <div class="map" style="margin-top: 14px">
+        <div>F&#8321; = (1 + xy)&sup3;·z + y&sup2;·(1 + xy)·(4 + 3xy)</div>
+        <div>F&#8322; = y + 3x·(1 + xy)&sup2;·z + 3x·y&sup2;·(4 + 3xy)</div>
+        <div>F&#8323; = 2x − 3x&sup2;y − x&sup3;z</div>
+      </div>
+      <div class="det">det&nbsp;JF = <b>−2</b>&nbsp;&nbsp;— constant everywhere. The hypothesis holds perfectly.</div>
+      <p style="margin-top: 14px">
+        And yet it is <b>not one-to-one</b>. Three completely different points are crushed onto the same image:
+      </p>
+      <table style="margin-top: 12px">
+        <thead>
+          <tr>
+            <th>Input (x, y, z)</th>
+            <th></th>
+            <th>Output</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>A = (0, 0, −1/4)</td>
+            <td><span class="arrow">&#8594;</span></td>
+            <td>(−1/4, 0, 0)</td>
+          </tr>
+          <tr>
+            <td>B = (1, −3/2, 13/2)</td>
+            <td><span class="arrow">&#8594;</span></td>
+            <td>(−1/4, 0, 0)</td>
+          </tr>
+          <tr>
+            <td>C = (−1, 3/2, 13/2)</td>
+            <td><span class="arrow">&#8594;</span></td>
+            <td>(−1/4, 0, 0)</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin-top: 14px">
+        A constant nonzero Jacobian, yet three-to-one. Invertible maps cannot collide — so the conjecture is
+        <b>false for n&nbsp;&ge;&nbsp;3</b>. (The planar case, n&nbsp;=&nbsp;2, is still open.)
+      </p>
+    </section>
+
+    <section class="panel">
+      <div class="panel-title">See the collision</div>
+      <p class="note">
+        Left: the real slice of the domain, with the three input points A, B, C and a movable probe P. Right: their
+        images. Drag to rotate. Move P — its image <b>F(P)</b> follows — and notice <b>det&nbsp;J stays −2</b> no matter
+        where you go. Snap P onto A, B, or C and watch three separate points land on one.
+      </p>
+      <canvas class="stage" id="stage" height="420"></canvas>
+      <div class="caption" id="cap">Domain ℝ³ (real slice) &nbsp;·&nbsp; Image ℝ³ &nbsp;·&nbsp; three inputs, one output</div>
+
+      <div class="controls">
+        <div>
+          <div class="sliders">
+            <label>x <input id="sx" type="range" min="-1.5" max="1.5" step="0.01" value="0.4" /><output id="ox">0.40</output></label>
+            <label>y <input id="sy" type="range" min="-2" max="2" step="0.01" value="0.6" /><output id="oy">0.60</output></label>
+            <label>z <input id="sz" type="range" min="-1" max="7" step="0.01" value="1" /><output id="oz">1.00</output></label>
+          </div>
+          <div class="btns">
+            <button id="ba">Snap P → A</button>
+            <button id="bb">Snap P → B</button>
+            <button id="bc">Snap P → C</button>
+            <button id="bspin" class="on">Spin: on</button>
+          </div>
+        </div>
+        <div class="readout">
+          <div class="row"><span>Probe P</span><span id="rp">—</span></div>
+          <div class="row"><span>Image F(P)</span><span id="rfp">—</span></div>
+          <div class="row"><span>det J at P</span><span id="rdet"><b>—</b></span></div>
+          <div class="row"><span>Distance F(P) → shared output</span><span id="rdist">—</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-title">Why it matters</div>
+      <p>
+        The result was announced by Levent Alpöge, credited to Claude Fable as a research collaborator, and independently
+        re-checked (including a Lean formalization) within a day. The Jacobian determinant and the three-to-one collision
+        above were also re-verified symbolically for this page — <b>det&nbsp;JF ≡ −2</b>, exact.
+      </p>
+      <p>
+        The interesting part is not that a machine did arithmetic. It is that the winning move was a <em>construction</em>
+        — a non-obvious algebraic ansatz, visible in the recurring (1+xy) factor, that forces the Jacobian to collapse to
+        a constant while smuggling in a fold. That is the sort of inventive leap the "AI can't create" story insists is
+        off-limits to machines.
+      </p>
+    </section>
+
+    <footer>
+      <div>Visualization by Didrik Liu · map by L. Alpöge &amp; Claude Fable (2026) · conjecture by O.-H. Keller (1939).</div>
+      <div>
+        Reporting:
+        <a href="https://gigazine.net/gsc_news/en/20260721-claude-fable-5-jacobian-conjecture/" target="_blank" rel="noopener">GIGAZINE</a>
+        ·
+        <a href="https://explainx.ai/blog/fable-5-jacobian-conjecture-counterexample-alpoge-july-2026" target="_blank" rel="noopener">explainX</a>
+        · det J and fiber re-verified with SymPy.
+      </div>
+    </footer>
+
+    <script>
+      "use strict";
+      // ---- The counterexample map and its exact Jacobian -------------------
+      function F(x, y, z) {
+        const k = 1 + x * y;
+        const q = 4 + 3 * x * y;
+        return [
+          k * k * k * z + y * y * k * q,
+          y + 3 * x * k * k * z + 3 * x * y * y * q,
+          2 * x - 3 * x * x * y - x * x * x * z,
+        ];
+      }
+      // Exact partial derivatives (from symbolic differentiation).
+      function detJ(x, y, z) {
+        const j11 = 3 * x * x * y * y * y * z + 6 * x * y * y * y * y + 6 * x * y * y * z + 7 * y * y * y + 3 * y * z;
+        const j12 =
+          3 * x * x * x * y * y * z + 12 * x * x * y * y * y + 6 * x * x * y * z + 21 * x * y * y + 3 * x * z + 8 * y;
+        const j13 = x * x * x * y * y * y + 3 * x * x * y * y + 3 * x * y + 1;
+        const j21 = 9 * x * x * y * y * z + 18 * x * y * y * y + 12 * x * y * z + 12 * y * y + 3 * z;
+        const j22 = 6 * x * x * x * y * z + 27 * x * x * y * y + 6 * x * x * z + 24 * x * y + 1;
+        const j23 = 3 * x * x * x * y * y + 6 * x * x * y + 3 * x;
+        const j31 = -3 * x * x * z - 6 * x * y + 2;
+        const j32 = -3 * x * x;
+        const j33 = -x * x * x;
+        return (
+          j11 * (j22 * j33 - j23 * j32) - j12 * (j21 * j33 - j23 * j31) + j13 * (j21 * j32 - j22 * j31)
+        );
+      }
+
+      const IN = {
+        A: [0, 0, -0.25],
+        B: [1, -1.5, 6.5],
+        C: [-1, 1.5, 6.5],
+      };
+      const OUT = [-0.25, 0, 0];
+
+      // ---- Tiny 3D: rotate + orthographic project --------------------------
+      let yaw = 0.6,
+        pitch = -0.5;
+      function rot(p) {
+        const cy = Math.cos(yaw),
+          sy = Math.sin(yaw);
+        let x1 = cy * p[0] + sy * p[2];
+        let z1 = -sy * p[0] + cy * p[2];
+        const cx = Math.cos(pitch),
+          sx = Math.sin(pitch);
+        let y2 = cx * p[1] - sx * z1;
+        let z2 = sx * p[1] + cx * z1;
+        return [x1, y2, z2];
+      }
+
+      const cv = document.getElementById("stage");
+      const ctx = cv.getContext("2d");
+      let W = 0,
+        H = 0,
+        dpr = 1;
+      function resize() {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        W = cv.clientWidth;
+        H = cv.clientHeight;
+        cv.width = Math.floor(W * dpr);
+        cv.height = Math.floor(H * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      window.addEventListener("resize", resize);
+
+      const INK = "#0a0a0a",
+        SIG = "#ff4d00",
+        PAP = "#f5f1e8";
+
+      function frame(cx, cy, scale, project, label, labelY) {
+        // axis triad through origin
+        const O = project([0, 0, 0], cx, cy, scale);
+        const ax = project([1, 0, 0], cx, cy, scale);
+        const ay = project([0, 1, 0], cx, cy, scale);
+        const az = project([0, 0, 1], cx, cy, scale);
+        ctx.strokeStyle = INK;
+        ctx.globalAlpha = 0.35;
+        ctx.lineWidth = 1;
+        for (const a of [ax, ay, az]) {
+          ctx.beginPath();
+          ctx.moveTo(O.x, O.y);
+          ctx.lineTo(a.x, a.y);
+          ctx.stroke();
+        }
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = INK;
+        ctx.font = "700 11px " + getComputedStyle(document.body).getPropertyValue("--mono");
+        ctx.fillText("x", ax.x + 2, ax.y);
+        ctx.fillText("y", ay.x + 2, ay.y);
+        ctx.fillText("z", az.x + 2, az.y);
+        ctx.font = "800 12px " + getComputedStyle(document.body).getPropertyValue("--sans");
+        ctx.textAlign = "center";
+        ctx.fillText(label, cx, labelY);
+        ctx.textAlign = "left";
+      }
+
+      function drawBox(cW, hW, project, cx, cy, s) {
+        const pts = [];
+        for (let i = 0; i < 8; i++) {
+          pts.push(
+            project(
+              [cW[0] + (i & 1 ? hW[0] : -hW[0]), cW[1] + (i & 2 ? hW[1] : -hW[1]), cW[2] + (i & 4 ? hW[2] : -hW[2])],
+              cx,
+              cy,
+              s,
+            ),
+          );
+        }
+        const E = [[0,1],[0,2],[0,4],[1,3],[1,5],[2,3],[2,6],[3,7],[4,5],[4,6],[5,7],[6,7]];
+        ctx.strokeStyle = INK;
+        ctx.globalAlpha = 0.16;
+        ctx.lineWidth = 1.5;
+        for (const [a, b] of E) {
+          ctx.beginPath();
+          ctx.moveTo(pts[a].x, pts[a].y);
+          ctx.lineTo(pts[b].x, pts[b].y);
+          ctx.stroke();
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      function marker(pt, cx, cy, scale, project, opts) {
+        const s = project(pt, cx, cy, scale);
+        const r = opts.big ? 9 : 6;
+        ctx.fillStyle = opts.fill;
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.rect(s.x - r, s.y - r, 2 * r, 2 * r);
+        ctx.fill();
+        ctx.stroke();
+        if (opts.label) {
+          ctx.fillStyle = INK;
+          ctx.font = "800 13px " + getComputedStyle(document.body).getPropertyValue("--sans");
+          ctx.fillText(opts.label, s.x + r + 3, s.y - r - 2);
+        }
+        return s;
+      }
+
+      function render() {
+        ctx.clearRect(0, 0, W, H);
+        const stacked = W < 640;
+        // layout: two frames
+        let f1, f2;
+        if (stacked) {
+          f1 = { cx: W * 0.5, cy: H * 0.3 };
+          f2 = { cx: W * 0.5, cy: H * 0.78 };
+        } else {
+          f1 = { cx: W * 0.28, cy: H * 0.54 };
+          f2 = { cx: W * 0.72, cy: H * 0.54 };
+        }
+
+        // probe
+        const px = +sx.value,
+          py = +sy.value,
+          pz = +sz.value;
+        const P = [px, py, pz];
+        const FP = F(px, py, pz);
+
+        const vBudget = stacked ? H * 0.2 : H * 0.4;
+        const hBudget = stacked ? W * 0.42 : W * 0.22;
+        const budget = Math.min(vBudget, hBudget);
+
+        // Domain frame: bounding box centered so A,B,C,P sit inside.
+        const dc = [0, 0, 3],
+          dHalf = [2, 2.5, 4];
+        const dScale = budget / Math.hypot(dHalf[0], dHalf[1], dHalf[2]);
+        const projD = (p, cx, cy, s) => {
+          const r = rot([p[0] - dc[0], p[1] - dc[1], p[2] - dc[2]]);
+          return { x: cx + r[0] * s, y: cy - r[1] * s };
+        };
+
+        // Image frame: cube around the shared output, auto-fit to also hold F(P).
+        let rad = 0.7;
+        for (const c of [0, 1, 2]) rad = Math.max(rad, Math.abs(FP[c] - OUT[c]));
+        const iHalf = rad + 0.5;
+        const iScale = Math.min(budget / (iHalf * Math.sqrt(3)), 80);
+        const projI = (p, cx, cy, s) => {
+          const r = rot([p[0] - OUT[0], p[1] - OUT[1], p[2] - OUT[2]]);
+          return { x: cx + r[0] * s, y: cy - r[1] * s };
+        };
+
+        // bounding boxes give each frame 3D structure
+        drawBox(dc, dHalf, projD, f1.cx, f1.cy, dScale);
+        drawBox(OUT, [iHalf, iHalf, iHalf], projI, f2.cx, f2.cy, iScale);
+
+        // frames + axes (labels sit above each frame)
+        frame(f1.cx, f1.cy, dScale, projD, "DOMAIN ℝ³ (real slice)", stacked ? f1.cy - 118 : 22);
+        frame(f2.cx, f2.cy, iScale, projI, "IMAGE ℝ³", stacked ? f2.cy - 118 : 22);
+
+        // connectors A,B,C (domain) -> OUT (image): three become one
+        const outS = projI(OUT, f2.cx, f2.cy, iScale);
+        ctx.setLineDash([5, 5]);
+        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = INK;
+        ctx.globalAlpha = 0.5;
+        for (const key of ["A", "B", "C"]) {
+          const s = projD(IN[key], f1.cx, f1.cy, dScale);
+          ctx.beginPath();
+          ctx.moveTo(s.x, s.y);
+          ctx.lineTo(outS.x, outS.y);
+          ctx.stroke();
+        }
+        ctx.setLineDash([]);
+        ctx.globalAlpha = 1;
+
+        // probe connector P -> F(P) in signal
+        const pS = projD(P, f1.cx, f1.cy, dScale);
+        const fpS = projI(FP, f2.cx, f2.cy, iScale);
+        ctx.strokeStyle = SIG;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(pS.x, pS.y);
+        ctx.lineTo(fpS.x, fpS.y);
+        ctx.stroke();
+
+        // domain markers
+        marker(IN.A, f1.cx, f1.cy, dScale, projD, { fill: PAP, label: "A" });
+        marker(IN.B, f1.cx, f1.cy, dScale, projD, { fill: PAP, label: "B" });
+        marker(IN.C, f1.cx, f1.cy, dScale, projD, { fill: PAP, label: "C" });
+        marker(P, f1.cx, f1.cy, dScale, projD, { fill: SIG, label: "P" });
+
+        // image markers: shared output (big) + F(P)
+        marker(OUT, f2.cx, f2.cy, iScale, projI, { fill: INK, label: "A=B=C", big: true });
+        marker(FP, f2.cx, f2.cy, iScale, projI, { fill: SIG, label: "F(P)" });
+
+        // readout
+        rp.textContent = "(" + fmt(px) + ", " + fmt(py) + ", " + fmt(pz) + ")";
+        rfp.textContent = "(" + fmt(FP[0]) + ", " + fmt(FP[1]) + ", " + fmt(FP[2]) + ")";
+        const d = detJ(px, py, pz);
+        rdet.innerHTML = "<b>" + (Math.abs(d + 2) < 1e-6 ? "−2" : d.toFixed(4)) + "</b>";
+        const dist = Math.hypot(FP[0] - OUT[0], FP[1] - OUT[1], FP[2] - OUT[2]);
+        rdist.textContent = dist < 1e-4 ? "0  (collision!)" : dist.toFixed(3);
+      }
+
+      function fmt(v) {
+        const r = Math.round(v * 100) / 100;
+        return (Object.is(r, -0) ? 0 : r).toFixed(2);
+      }
+
+      // ---- Controls --------------------------------------------------------
+      const sx = document.getElementById("sx"),
+        sy = document.getElementById("sy"),
+        sz = document.getElementById("sz");
+      const ox = document.getElementById("ox"),
+        oy = document.getElementById("oy"),
+        oz = document.getElementById("oz");
+      const rp = document.getElementById("rp"),
+        rfp = document.getElementById("rfp"),
+        rdet = document.getElementById("rdet"),
+        rdist = document.getElementById("rdist");
+
+      function syncOutputs() {
+        ox.textContent = (+sx.value).toFixed(2);
+        oy.textContent = (+sy.value).toFixed(2);
+        oz.textContent = (+sz.value).toFixed(2);
+      }
+      [sx, sy, sz].forEach((s) => s.addEventListener("input", syncOutputs));
+
+      function snap(pt) {
+        sx.value = pt[0];
+        sy.value = pt[1];
+        sz.value = pt[2];
+        syncOutputs();
+      }
+      document.getElementById("ba").addEventListener("click", () => snap(IN.A));
+      document.getElementById("bb").addEventListener("click", () => snap(IN.B));
+      document.getElementById("bc").addEventListener("click", () => snap(IN.C));
+
+      let spin = true;
+      const bspin = document.getElementById("bspin");
+      bspin.addEventListener("click", () => {
+        spin = !spin;
+        bspin.classList.toggle("on", spin);
+        bspin.textContent = "Spin: " + (spin ? "on" : "off");
+      });
+
+      // drag to rotate
+      let dragging = false,
+        lx = 0,
+        ly = 0;
+      function down(e) {
+        dragging = true;
+        const p = e.touches ? e.touches[0] : e;
+        lx = p.clientX;
+        ly = p.clientY;
+      }
+      function move(e) {
+        if (!dragging) return;
+        const p = e.touches ? e.touches[0] : e;
+        yaw += (p.clientX - lx) * 0.01;
+        pitch += (p.clientY - ly) * 0.01;
+        pitch = Math.max(-1.4, Math.min(1.4, pitch));
+        lx = p.clientX;
+        ly = p.clientY;
+        if (e.touches) e.preventDefault();
+      }
+      function up() {
+        dragging = false;
+      }
+      cv.addEventListener("mousedown", down);
+      window.addEventListener("mousemove", move);
+      window.addEventListener("mouseup", up);
+      cv.addEventListener("touchstart", down, { passive: false });
+      cv.addEventListener("touchmove", move, { passive: false });
+      cv.addEventListener("touchend", up);
+
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      function loop() {
+        if (spin && !dragging && !reduced) yaw += 0.005;
+        render();
+        requestAnimationFrame(loop);
+      }
+      resize();
+      syncOutputs();
+      loop();
+    </script>
+  </body>
+</html>

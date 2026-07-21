@@ -10,6 +10,7 @@ import GithubIcon from '../components/Icon/GithubIcon';
 import InstagramIcon from '../components/Icon/InstagramIcon';
 import LinkedInIcon from '../components/Icon/LinkedInIcon';
 import heroImage from '../images/header-background.webp';
+import jacobianViz from '../images/portfolio/generated-jacobian-conjecture.png';
 import portfolioformulastudent from '../images/portfolio/portfolioformulastudent.png';
 import portfoliokex from '../images/portfolio/portfoliokex.png'
 import profilePic from '../images/profilepic.jpg';
@@ -215,6 +216,14 @@ export const skills: SkillGroup[] = [
  * Portfolio section
  */
 export const portfolioItems: PortfolioItem[] = [
+  {
+    title: 'The Jacobian Conjecture, Broken',
+    description:
+      'Interactive 3D visualization of the July 2026 counterexample (Alpöge × Claude Fable) that broke the 87-year-old Jacobian conjecture in dimension 3 — fly around the map as three distinct points collapse to one image while the Jacobian stays constant at −2.',
+    url: 'https://demo-jacobian-conjecture-441088692042.europe-west2.run.app',
+    sourceUrl: 'https://github.com/alternative-dl/react-resume/tree/main/generated-projects/jacobian-conjecture',
+    image: jacobianViz,
+  },
   {
     title: 'Master Thesis (KTH)',
     description:
