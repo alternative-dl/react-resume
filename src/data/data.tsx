@@ -9,8 +9,10 @@ import {
 import GithubIcon from '../components/Icon/GithubIcon';
 import InstagramIcon from '../components/Icon/InstagramIcon';
 import LinkedInIcon from '../components/Icon/LinkedInIcon';
+import Mosaic from '../components/Mosaic';
 import heroImage from '../images/header-background.webp';
 import jacobianViz from '../images/portfolio/generated-jacobian-conjecture.png';
+import masterThesisCover from '../images/portfolio/master-thesis-cover.png';
 import portfolioformulastudent from '../images/portfolio/portfolioformulastudent.png';
 import portfoliokex from '../images/portfolio/portfoliokex.png'
 import profilePic from '../images/profilepic.jpg';
@@ -67,7 +69,7 @@ export const heroData: Hero = {
         <strong className="bg-sky px-1 font-bold text-ink">Stockholm</strong> and{' '}
         <strong className="bg-sky px-1 font-bold text-ink">Granada</strong>, finishing a combined bachelor's &
         master's at the <strong className="font-bold text-ink underline decoration-flare decoration-[3px] underline-offset-2">Royal Institute of Technology (KTH)</strong>. I co-founded{' '}
-        <strong className="bg-flare px-1 font-bold text-ink">CommodIQ</strong> (CTO) and{' '}
+        <Mosaic chars={8} label="my current stealth-stage startup" /> (CTO) and{' '}
         <strong className="bg-flare px-1 font-bold text-ink">ARIFY</strong>, and work as a Data Scientist & AI Engineer
         at <strong className="bg-lime px-1 font-bold text-ink">Pricer</strong>.
       </p>
@@ -113,7 +115,7 @@ const birthDate = new Date(2000, 6, 9)
 
 export const aboutData: About = {
   profileImageSrc: profilePic,
-  description: `Granada-based Data Analyst and AI Engineer finishing a combined bachelor's & master's in Computer Science and Industrial Management at KTH, and co-founder of CommodIQ and ARIFY. I move fast in the early stages of projects — rapid prototyping, quick design pivots, and a strong track record of leading through communication and investor relations.`,
+  description: `Granada-based Data Analyst and AI Engineer finishing a combined bachelor's & master's in Computer Science and Industrial Management at KTH, and co-founder of a stealth-stage startup and ARIFY. I move fast in the early stages of projects — rapid prototyping, quick design pivots, and a strong track record of leading through communication and investor relations.`,
   aboutItems: [
     {label: 'Location', text: 'Stockholm, Sweden & Granada, Spain', Icon: MapIcon},
     {label: 'Age', text: calculateAge(birthDate).toString(), Icon: CalendarIcon},
@@ -229,7 +231,7 @@ export const portfolioItems: PortfolioItem[] = [
     description:
       'High-Frequency Retail Pricing Data as an Inflation Indicator: Comovement and Forecasting in the Eurozone',
     url: '/assets/High-Frequency Retail Pricing Data as an Inflation Indicator.pdf',
-    image: heroImage,
+    image: masterThesisCover,
   },
   {
     title: 'KTH Formula Student',
@@ -267,11 +269,16 @@ export const education: TimelineItem[] = [
 export const experience: TimelineItem[] = [
   {
     date: 'May 2026 - Present',
-    location: 'CommodIQ AB',
+    location: (
+      <>
+        <Mosaic chars={8} label="Stealth-stage startup" /> AB
+      </>
+    ),
     title: 'Co-Founder & CTO',
     content: (
       <p>
-        Co-founded CommodIQ as the sole technical lead. Built CI/CD pipelines and platform infrastructure on GCP and
+        Co-founded <Mosaic chars={8} label="my stealth-stage startup" /> as the sole technical lead. Built CI/CD
+        pipelines and platform infrastructure on GCP and
         Supabase, and designed a self-improvement loop for the AI system — including a golden dataset and Promptfoo-based
         systems testing. Consult on structured platforming with least-privilege access and secure-by-design principles
         to prepare for ISO audits.
