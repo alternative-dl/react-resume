@@ -1,5 +1,6 @@
 import '../globalStyles.scss';
 
+import {Analytics} from '@vercel/analytics/next';
 import type {AppProps} from 'next/app';
 import {Space_Grotesk, Space_Mono} from 'next/font/google';
 import {memo} from 'react';
@@ -20,6 +21,7 @@ const MyApp = memo(({Component, pageProps}: AppProps): JSX.Element => {
   return (
     <div className={`${displayFont.variable} ${monoFont.variable}`}>
       <Component {...pageProps} />
+      <Analytics />
     </div>
   );
 });
