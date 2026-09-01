@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Decision Boundary Visualizer</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>Decision&nbsp;Boundary<br>Visualizer</h1>
+    <span class="badge">2D &middot; Real-time &middot; Vanilla JS</span>
+    <span class="spacer"></span>
+    <span class="tag">Didrik&nbsp;Liu</span>
+  </header>
+
+  <main class="app">
+    <div class="col">
+      <section class="card">
+        <h2>Data</h2>
+        <div class="chips" role="radiogroup" aria-label="Dataset">
+          <button class="chip" role="radio" data-group="dataset" data-value="blobs">Blobs</button>
+          <button class="chip" role="radio" data-group="dataset" data-value="moons">Moons</button>
+          <button class="chip" role="radio" data-group="dataset" data-value="circles">Circles</button>
+          <button class="chip" role="radio" data-group="dataset" data-value="xor">XOR</button>
+          <button class="chip" role="radio" data-group="dataset" data-value="spiral">Spiral</button>
+        </div>
+        <div class="field">
+          <div class="lab"><span>Sample Count</span><span class="val" data-out="n">220</span></div>
+          <input type="range" data-key="n" min="50" max="400" step="10" value="220" aria-label="Sample count">
+        </div>
+        <div class="field">
+          <div class="lab"><span>Noise</span><span class="val" data-out="noise">15%</span></div>
+          <input type="range" data-key="noise" min="0" max="40" step="1" value="15" aria-label="Noise">
+        </div>
+        <div class="row" style="margin-top:16px">
+          <button class="btn primary" id="regen">Regenerate</button>
+          <button class="btn" id="clear">Clear</button>
+        </div>
+        <p class="hint">Left-click canvas adds current class &middot; Right-click adds the other</p>
+      </section>
+
+      <section class="card">
+        <h2>Classifier</h2>
+        <div class="chips" role="radiogroup" aria-label="Algorithm">
+          <button class="chip" role="radio" data-group="algo" data-value="knn">K-NN</button>
+          <button class="chip" role="radio" data-group="algo" data-value="logreg">Logistic</button>
+          <button class="chip" role="radio" data-group="algo" data-value="tree">Tree</button>
+          <button class="chip" role="radio" data-group="algo" data-value="mlp">Neural</button>
+        </div>
+        <div class="param-row field" data-algo="knn">
+          <div class="lab"><span>Neighbors (K)</span><span class="val" data-out="k">12</span></div>
+          <input type="range" data-key="k" min="1" max="30" step="1" value="12" aria-label="Neighbors K">
+        </div>
+        <div class="param-row field" data-algo="logreg" hidden>
+          <div class="lab"><span>Polynomial Degree</span><span class="val" data-out="degree">1</span></div>
+          <input type="range" data-key="degree" min="1" max="4" step="1" value="1" aria-label="Polynomial degree">
+        </div>
+        <div class="param-row field" data-algo="tree" hidden>
+          <div class="lab"><span>Max Depth</span><span class="val" data-out="depth">5</span></div>
+          <input type="range" data-key="depth" min="1" max="12" step="1" value="5" aria-label="Max depth">
+        </div>
+        <div class="param-row field" data-algo="mlp" hidden>
+          <div class="lab"><span>Hidden Units</span><span class="val" data-out="units">10</span></div>
+          <input type="range" data-key="units" min="2" max="20" step="1" value="10" aria-label="Hidden units">
+        </div>
+        <p class="hint" id="algoDesc"></p>
+      </section>
+
+      <section class="card">
+        <h2>Display</h2>
+        <div class="toggles">
+          <button class="tg brush" id="brush" aria-label="Brush class"><span class="swatch"></span><span class="blab">Class B</span></button>
+        </div>
+        <div class="toggles" style="margin-top:8px">
+          <button class="tg on" data-toggle="showHalftone" aria-pressed="true"><span class="box"></span>Halftone</button>
+          <button class="tg on" data-toggle="showLine" aria-pressed="true"><span class="box"></span>Boundary</button>
+          <button class="tg on" data-toggle="showPoints" aria-pressed="true"><span class="box"></span>Points</button>
+          <button class="tg on" data-toggle="showGrid" aria-pressed="true"><span class="box"></span>Grid</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="col">
+      <section class="card stage">
+        <div class="head">
+          <span class="t">Decision Surface</span>
+          <span class="t" id="headHint">Predicted P(Class&nbsp;B)</span>
+        </div>
+        <div id="stageBox"><canvas id="plot" width="620" height="620"></canvas></div>
+        <div class="legend">
+          <span class="it"><span class="dot a"></span>Class A</span>
+          <span class="it"><span class="dot b"></span>Class B</span>
+          <span class="it"><span class="hg">&#9617;&#9618;&#9619;&#9608;</span> P(Class&nbsp;B)</span>
+          <span class="it"><span class="sq"></span> Boundary p=0.50</span>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="k">Model</div><div class="v" id="statModel">&mdash;</div></div>
+          <div class="stat acc"><div class="k">Train Accuracy</div><div class="v" id="statAcc">&mdash;</div></div>
+          <div class="stat"><div class="k">Points</div><div class="v" id="statPts">0</div></div>
+          <div class="stat"><div class="k">Compute</div><div class="v" id="statMs">&mdash;</div></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <span>Built for Didrik Liu</span>
+    <span>No Libraries &middot; No Network &middot; Runs Offline</span>
+  </footer>
+</div>
+<script src="app.js" defer></script>
+</body>
+</html>
