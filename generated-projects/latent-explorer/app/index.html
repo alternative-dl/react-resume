@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>Latent Space Explorer</title>
+<link rel='stylesheet' href='styles.css'>
+</head>
+<body>
+<header class='topbar'>
+  <div class='brand'>
+    <h1 class='title'>Latent Space<br>Explorer</h1>
+    <span class='badge'>2D GENERATIVE LATENT FIELD · CPPN · 100% OFFLINE</span>
+  </div>
+  <p class='tagline'>Drag the <b>navigator</b> to interpolate between four latent anchors. A compositional pattern network renders the field live — no data, no network, pure math.</p>
+</header>
+
+<main class='layout'>
+  <section class='card stage'>
+    <div class='stage-head'>
+      <span class='kicker'>// OUTPUT FIELD</span>
+      <span class='chip' id='resChip'>128 × 128</span>
+    </div>
+    <div class='canvas-wrap'>
+      <canvas id='art' width='600' height='600'></canvas>
+    </div>
+    <div class='status' id='status'>booting…</div>
+  </section>
+
+  <aside class='card panel'>
+    <div class='panel-scroll'>
+
+      <div class='block'>
+        <div class='block-head'><span class='kicker'>NAVIGATOR</span><span class='coord' id='coord'>U 0.32 · V 0.68</span></div>
+        <div class='pad' id='pad' tabindex='0' role='slider' aria-label='Latent space navigator' aria-valuetext='center'>
+          <canvas class='pad-grid' id='padGrid'></canvas>
+          <span class='anchor a'>A</span><span class='anchor b'>B</span><span class='anchor c'>C</span><span class='anchor d'>D</span>
+          <div class='knob' id='knob'></div>
+        </div>
+      </div>
+
+      <div class='block'>
+        <div class='block-head'><span class='kicker'>LATENT VECTOR Z</span><span class='coord'>6-DIM</span></div>
+        <div class='zbars' id='zbars'></div>
+      </div>
+
+      <div class='block'>
+        <div class='block-head'><span class='kicker'>SEED</span><span class='coord' id='seedVal'>0000</span></div>
+        <div class='row'>
+          <button class='btn ico' id='seedDown' aria-label='Previous seed'>◀</button>
+          <button class='btn grow' id='seedRnd'>RANDOM</button>
+          <button class='btn ico' id='seedUp' aria-label='Next seed'>▶</button>
+        </div>
+      </div>
+
+      <div class='block'>
+        <label class='block-head' for='detail'><span class='kicker'>DETAIL</span><span class='coord' id='detailVal'>FINE</span></label>
+        <input type='range' id='detail' min='0' max='3' step='1' value='2'>
+      </div>
+
+      <div class='block'>
+        <label class='block-head' for='spread'><span class='kicker'>SPREAD</span><span class='coord' id='spreadVal'>1.00×</span></label>
+        <input type='range' id='spread' min='40' max='180' step='1' value='100'>
+      </div>
+
+      <div class='block'>
+        <div class='block-head'><span class='kicker'>RENDER MODE</span></div>
+        <div class='row'>
+          <button class='btn grow' id='symBtn'>SYM · MIRROR</button>
+          <button class='btn grow' id='toneBtn'>TONE · TRI</button>
+        </div>
+      </div>
+
+      <div class='block'>
+        <div class='block-head'><span class='kicker'>ACTIONS</span></div>
+        <div class='row wrap'>
+          <button class='btn grow' id='animBtn'>▶ AUTO-TOUR</button>
+          <button class='btn grow' id='rndBtn'>JUMP</button>
+        </div>
+        <div class='row wrap' style='margin-top:var(--s2)'>
+          <button class='btn grow' id='resetBtn'>RESET</button>
+          <button class='btn grow signal-btn' id='exportBtn'>EXPORT PNG</button>
+        </div>
+      </div>
+
+    </div>
+  </aside>
+</main>
+
+<footer class='foot'>
+  <span>PORTFOLIO PIECE</span><span class='dot'>●</span><span>DIDRIK LIU</span><span class='dot'>●</span><span>VANILLA JS · CANVAS · CPPN</span>
+</footer>
+
+<script src='app.js'></script>
+</body>
+</html>

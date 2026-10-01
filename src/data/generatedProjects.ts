@@ -3,10 +3,18 @@
  * Each entry is a Claude-generated demo deployed to Cloud Run.
  */
 import gen_kmeans_playground from '../images/portfolio/generated-kmeans-playground.png';
+import gen_latent_explorer from '../images/portfolio/generated-latent-explorer.png';
 import gen_price_paths from '../images/portfolio/generated-price-paths.png';
 import type {PortfolioItem} from './dataDef';
 
 export const generatedProjects: PortfolioItem[] = [
+  {
+    title: "Latent Space Explorer",
+    description: "Interpolate through a 2D generative latent space. Explore AI-generated patterns.",
+    url: "https://demo-latent-explorer-gsjoa373ca-nw.a.run.app",
+    sourceUrl: "https://github.com/alternative-dl/react-resume/tree/main/generated-projects/latent-explorer",
+    image: gen_latent_explorer,
+  },
   {
     title: "Price Path Explorer",
     description: "Interactive Monte Carlo simulator showing how market volatility affects possible asset price futures.",
