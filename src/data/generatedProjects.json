@@ -16,5 +16,14 @@
     "sourceUrl": "https://github.com/alternative-dl/react-resume/tree/main/generated-projects/kmeans-playground",
     "image": "generated-kmeans-playground.png",
     "createdAt": "2026-07-20"
+  },
+  {
+    "slug": "decision-boundary-explorer",
+    "title": "Decision Boundary Explorer",
+    "description": "Watch logistic regression, SVM, k-NN, and decision trees learn decision boundaries as you interactively add training data.",
+    "url": "https://demo-decision-boundary-explorer-gsjoa373ca-nw.a.run.app",
+    "sourceUrl": "https://github.com/alternative-dl/react-resume/tree/main/generated-projects/decision-boundary-explorer",
+    "image": "generated-decision-boundary-explorer.png",
+    "createdAt": "2026-10-01"
   }
 ]
