@@ -2,6 +2,9 @@
   "name": "react-resume-template",
   "version": "2.0.0",
   "private": true,
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
     "build": "yarn compile && yarn next build",
     "clean": "rm -rf build-tsc .next",
