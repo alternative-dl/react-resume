@@ -4,6 +4,7 @@
  */
 import gen_decision_boundary_explorer from '../images/portfolio/generated-decision-boundary-explorer.png';
 import gen_kmeans_playground from '../images/portfolio/generated-kmeans-playground.png';
+import gen_latent_explorer from '../images/portfolio/generated-latent-explorer.png';
 import gen_price_paths from '../images/portfolio/generated-price-paths.png';
 import type {PortfolioItem} from './dataDef';
 
@@ -14,6 +15,13 @@ export const generatedProjects: PortfolioItem[] = [
     url: "https://demo-decision-boundary-explorer-gsjoa373ca-nw.a.run.app",
     sourceUrl: "https://github.com/alternative-dl/react-resume/tree/main/generated-projects/decision-boundary-explorer",
     image: gen_decision_boundary_explorer,
+  },
+  {
+    title: "Latent Space Explorer",
+    description: "Interpolate through a 2D generative latent space. Explore AI-generated patterns.",
+    url: "https://demo-latent-explorer-gsjoa373ca-nw.a.run.app",
+    sourceUrl: "https://github.com/alternative-dl/react-resume/tree/main/generated-projects/latent-explorer",
+    image: gen_latent_explorer,
   },
   {
     title: "Price Path Explorer",
