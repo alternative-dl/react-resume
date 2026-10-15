@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>Decision Boundary Explorer</title>
+<link rel='stylesheet' href='styles.css'>
+</head>
+<body>
+<div class='wrap'>
+  <header class='masthead'>
+    <div class='mast-main'>
+      <p class='kicker'>FIG.01 — SUPERVISED CLASSIFIERS</p>
+      <h1>Decision<br>Boundary<br>Explorer</h1>
+    </div>
+    <p class='badge'>CLICK THE FIELD TO PLANT POINTS · WATCH THE MODEL REDRAW ITS BOUNDARY</p>
+  </header>
+  <main class='grid'>
+    <section class='card canvas-card'>
+      <div class='card-head'><span>FEATURE FIELD</span><span class='mono-dim'>X1 × X2 ∈ [0,1]</span></div>
+      <div class='stage' id='stage'>
+        <canvas id='field'></canvas>
+        <div class='empty' id='empty'><div class='empty-box'>NO DATA · CLICK TO PLANT POINTS</div></div>
+      </div>
+      <ul class='legend'>
+        <li><span class='sw sw-a'></span>CLASS A</li>
+        <li><span class='sw sw-b'></span>CLASS B</li>
+        <li><span class='sw sw-line'></span>BOUNDARY</li>
+        <li><span class='sw sw-region'></span>REGION B</li>
+      </ul>
+    </section>
+    <aside class='card panel'>
+      <section class='sect'>
+        <h2>Model</h2>
+        <div class='algo-grid'>
+          <button class='btn algo-btn' data-algo='logreg'>Logistic</button>
+          <button class='btn algo-btn' data-algo='svm'>SVM</button>
+          <button class='btn algo-btn active' data-algo='knn'>k-NN</button>
+          <button class='btn algo-btn' data-algo='tree'>Tree</button>
+        </div>
+      </section>
+      <section class='sect params'>
+        <h2>Parameters</h2>
+        <div class='pgroup' data-for='logreg'>
+          <div class='ctl'>
+            <label for='lr'>Learning rate <output id='lrv'>0.80</output></label>
+            <input type='range' id='lr' min='5' max='300' value='80'>
+          </div>
+        </div>
+        <div class='pgroup' data-for='svm'>
+          <div class='ctl'>
+            <label>Kernel</label>
+            <div class='seg'>
+              <button class='btn seg-btn kernel-btn' data-kernel='linear'>Linear</button>
+              <button class='btn seg-btn kernel-btn active' data-kernel='rbf'>RBF</button>
+            </div>
+          </div>
+          <div class='ctl'>
+            <label for='svmC'>Soft margin C <output id='svmCv'>30</output></label>
+            <input type='range' id='svmC' min='1' max='100' value='30'>
+          </div>
+          <div class='ctl' id='ctl-gamma'>
+            <label for='svmGamma'>Gamma γ <output id='svmGammav'>12</output></label>
+            <input type='range' id='svmGamma' min='1' max='40' value='12'>
+          </div>
+        </div>
+        <div class='pgroup' data-for='knn'>
+          <div class='ctl'>
+            <label for='knnK'>Neighbours k <output id='knnKv'>7</output></label>
+            <input type='range' id='knnK' min='1' max='25' value='7'>
+          </div>
+        </div>
+        <div class='pgroup' data-for='tree'>
+          <div class='ctl'>
+            <label for='treeDepth'>Max depth <output id='treeDepthv'>5</output></label>
+            <input type='range' id='treeDepth' min='1' max='9' value='5'>
+          </div>
+        </div>
+      </section>
+      <section class='sect'>
+        <h2>Brush</h2>
+        <div class='brush-grid'>
+          <button class='btn brush-btn active' data-brush='0'><span class='sw sw-a'></span>Class A</button>
+          <button class='btn brush-btn' data-brush='1'><span class='sw sw-b'></span>Class B</button>
+        </div>
+      </section>
+      <section class='sect'>
+        <h2>Data</h2>
+        <div class='action-grid'>
+          <button class='btn' id='btn-random'>Shuffle set</button>
+          <button class='btn' id='btn-clear'>Clear</button>
+        </div>
+      </section>
+      <section class='sect'>
+        <h2>Readout</h2>
+        <div class='stats'>
+          <div class='stat'><span>Model</span><b id='s-model'>—</b></div>
+          <div class='stat'><span>Points</span><b id='s-points'>0</b></div>
+          <div class='stat'><span>Class A / B</span><b id='s-split'>0 / 0</b></div>
+          <div class='stat big'><span>Train accuracy</span><b id='s-acc'>—</b></div>
+          <div class='stat'><span id='s-xlabel'>Status</span><b id='s-x'>Idle</b></div>
+        </div>
+      </section>
+    </aside>
+  </main>
+  <footer class='foot'><span>DIDRIK LIU</span><span>DECISION BOUNDARY EXPLORER</span><span>VANILLA JS · OFFLINE</span></footer>
+</div>
+<script src='app.js'></script>
+</body>
+</html>

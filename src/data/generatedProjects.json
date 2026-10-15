@@ -18,6 +18,15 @@
     "createdAt": "2026-07-20"
   },
   {
+    "slug": "latent-explorer",
+    "title": "Latent Space Explorer",
+    "description": "Interpolate through a 2D generative latent space. Explore AI-generated patterns.",
+    "url": "https://demo-latent-explorer-gsjoa373ca-nw.a.run.app",
+    "sourceUrl": "https://github.com/alternative-dl/react-resume/tree/main/generated-projects/latent-explorer",
+    "image": "generated-latent-explorer.png",
+    "createdAt": "2026-08-01"
+  },
+  {
     "slug": "decision-boundary-viz",
     "title": "Decision Boundary Visualizer",
     "description": "Compare how different classification algorithms draw boundaries on 2D data with real-time visualization.",
@@ -25,5 +34,14 @@
     "sourceUrl": "https://github.com/alternative-dl/react-resume/tree/main/generated-projects/decision-boundary-viz",
     "image": "generated-decision-boundary-viz.png",
     "createdAt": "2026-09-01"
+  },
+  {
+    "slug": "decision-boundary-explorer",
+    "title": "Decision Boundary Explorer",
+    "description": "Watch logistic regression, SVM, k-NN, and decision trees learn decision boundaries as you interactively add training data.",
+    "url": "https://demo-decision-boundary-explorer-gsjoa373ca-nw.a.run.app",
+    "sourceUrl": "https://github.com/alternative-dl/react-resume/tree/main/generated-projects/decision-boundary-explorer",
+    "image": "generated-decision-boundary-explorer.png",
+    "createdAt": "2026-10-01"
   }
 ]
