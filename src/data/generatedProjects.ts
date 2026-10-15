@@ -3,6 +3,7 @@
  * Each entry is a Claude-generated demo deployed to Cloud Run.
  */
 import gen_decision_boundary_explorer from '../images/portfolio/generated-decision-boundary-explorer.png';
+import gen_decision_boundary_viz from '../images/portfolio/generated-decision-boundary-viz.png';
 import gen_kmeans_playground from '../images/portfolio/generated-kmeans-playground.png';
 import gen_latent_explorer from '../images/portfolio/generated-latent-explorer.png';
 import gen_price_paths from '../images/portfolio/generated-price-paths.png';
@@ -15,6 +16,13 @@ export const generatedProjects: PortfolioItem[] = [
     url: "https://demo-decision-boundary-explorer-gsjoa373ca-nw.a.run.app",
     sourceUrl: "https://github.com/alternative-dl/react-resume/tree/main/generated-projects/decision-boundary-explorer",
     image: gen_decision_boundary_explorer,
+  },
+  {
+    title: "Decision Boundary Visualizer",
+    description: "Compare how different classification algorithms draw boundaries on 2D data with real-time visualization.",
+    url: "https://demo-decision-boundary-viz-gsjoa373ca-nw.a.run.app",
+    sourceUrl: "https://github.com/alternative-dl/react-resume/tree/main/generated-projects/decision-boundary-viz",
+    image: gen_decision_boundary_viz,
   },
   {
     title: "Latent Space Explorer",

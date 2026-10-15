@@ -27,6 +27,15 @@
     "createdAt": "2026-08-01"
   },
   {
+    "slug": "decision-boundary-viz",
+    "title": "Decision Boundary Visualizer",
+    "description": "Compare how different classification algorithms draw boundaries on 2D data with real-time visualization.",
+    "url": "https://demo-decision-boundary-viz-gsjoa373ca-nw.a.run.app",
+    "sourceUrl": "https://github.com/alternative-dl/react-resume/tree/main/generated-projects/decision-boundary-viz",
+    "image": "generated-decision-boundary-viz.png",
+    "createdAt": "2026-09-01"
+  },
+  {
     "slug": "decision-boundary-explorer",
     "title": "Decision Boundary Explorer",
     "description": "Watch logistic regression, SVM, k-NN, and decision trees learn decision boundaries as you interactively add training data.",
