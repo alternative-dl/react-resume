@@ -15,6 +15,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import {config, scriptDir} from './config';
+import type {ProjectSummary} from './dedupe';
 
 export type Idea = {slug: string; title: string; description: string};
 export type GeneratedFile = {path: string; content: string};
@@ -105,16 +106,30 @@ function extractJson<T>(text: string): T {
   }
 }
 
-export function pickIdea(recentTitles: string[]): Idea {
+export function pickIdea(existing: ProjectSummary[], rejected: string[] = []): Idea {
   if (config.dryRun) return readExampleIdea();
+
+  const existingList = existing.map(p => `- ${p.title}: ${p.description}`).join('\n') || '(none yet)';
+  const rejectedBlock = rejected.length
+    ? `\nThese earlier suggestions were REJECTED for being too close to an existing project — do not propose them or anything like them:\n${rejected
+        .map(t => `- ${t}`)
+        .join('\n')}\n`
+    : '';
 
   const prompt =
     `Invent ONE small but genuinely impressive personal project for the portfolio of Didrik Liu, ` +
     `a Data Analyst & AI Engineer. It must be buildable as a single-page, fully static web app ` +
     `(HTML/CSS/vanilla JS only — no backend, no build step, no external network calls). ` +
     `Favour interactive data/AI-flavoured toys: visualizations, algorithm demos, generative art, simulations.\n\n` +
-    `Do NOT repeat any of these existing projects:\n${recentTitles.map(t => `- ${t}`).join('\n') || '(none yet)'}\n\n` +
-    `Reply with ONLY this JSON object:\n` +
+    `The portfolio already contains these projects:\n${existingList}\n\n` +
+    `NOVELTY RULE (hard): the new project must be a genuinely different CONCEPT from every project above — ` +
+    `a different algorithm, domain, or visual idea. It is NOT enough to change the title or the framing: ` +
+    `a re-skin, variation, extension, or "v2" of an existing project counts as a duplicate. ` +
+    `Example: if a classifier decision-boundary demo already exists, another decision-boundary demo ` +
+    `(different models, different name) is a duplicate. Also avoid reusing the key nouns from existing titles. ` +
+    `Prefer a topic area that is not represented at all yet.\n` +
+    rejectedBlock +
+    `\nReply with ONLY this JSON object:\n` +
     `{"slug": "kebab-case, <=30 chars, url-safe", "title": "punchy, <=45 chars", "description": "one sentence, <=140 chars"}`;
 
   const idea = extractJson<Idea>(runClaude(prompt, config.claudeIdeaModel));
