@@ -31,6 +31,7 @@ display type) using system fonts (no web fonts — apps must run offline).
 | --- | --- |
 | `generate.ts` | Orchestrator (idea → app → deploy → screenshot → data) |
 | `claude.ts` | Headless Claude Code CLI calls (idea + app generation) |
+| `dedupe.ts` | Novelty guard: rejects ideas too close to existing projects; also reads manifests from unmerged `bot/monthly-project-*` branches |
 | `deploy.ts` | Writes app + fixed nginx Dockerfile, `gcloud run deploy`, Playwright screenshot |
 | `manifest.ts` | Owns `src/data/generatedProjects.json` + regenerates `generatedProjects.ts` |
 | `config.ts` | Env-driven config |
@@ -118,3 +119,19 @@ don't want to keep them.
   `--memory=128Mi --cpu=1 --min-instances=0 --max-instances=1 --concurrency=80
   --timeout=30`. CPU is request-throttled by default, so with scale-to-zero an
   idle demo bills nothing and a single small instance serves the traffic these get.
+
+## Avoiding duplicate projects
+
+Two monthly runs once produced near-identical demos ("Decision Boundary Visualizer" and
+"Decision Boundary Explorer"). Three things now prevent that:
+
+1. **Prompt** — the idea model gets every existing title *and* description and a hard
+   novelty rule: a different concept, not a re-skin or variation.
+2. **Deterministic check** — `tooSimilar()` in `dedupe.ts` rejects an idea whose title shares
+   2+ key terms with an existing project (or 3+ across title + description), ignoring generic
+   words like "interactive", "explorer", "visualizer". A rejected idea is fed back to the
+   model and it is asked again, up to 4 attempts.
+3. **Unmerged PRs count** — the manifest from every open `bot/monthly-project-*` branch on
+   origin is merged into the "existing" list, so a PR that sat unreviewed for a month is
+   still visible to the next run.
+
