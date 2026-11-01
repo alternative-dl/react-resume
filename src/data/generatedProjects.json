@@ -43,5 +43,14 @@
     "sourceUrl": "https://github.com/alternative-dl/react-resume/tree/main/generated-projects/decision-boundary-explorer",
     "image": "generated-decision-boundary-explorer.png",
     "createdAt": "2026-10-01"
+  },
+  {
+    "slug": "genetic-algorithm-visualizer",
+    "title": "Genetic Algorithm Visualizer",
+    "description": "Watch creatures evolve neural networks to navigate challenges through natural selection.",
+    "url": "https://demo-genetic-algorithm-visualizer-gsjoa373ca-nw.a.run.app",
+    "sourceUrl": "https://github.com/alternative-dl/react-resume/tree/main/generated-projects/genetic-algorithm-visualizer",
+    "image": "generated-genetic-algorithm-visualizer.png",
+    "createdAt": "2026-11-01"
   }
 ]

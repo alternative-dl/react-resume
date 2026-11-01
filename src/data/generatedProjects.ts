@@ -4,12 +4,20 @@
  */
 import gen_decision_boundary_explorer from '../images/portfolio/generated-decision-boundary-explorer.png';
 import gen_decision_boundary_viz from '../images/portfolio/generated-decision-boundary-viz.png';
+import gen_genetic_algorithm_visualizer from '../images/portfolio/generated-genetic-algorithm-visualizer.png';
 import gen_kmeans_playground from '../images/portfolio/generated-kmeans-playground.png';
 import gen_latent_explorer from '../images/portfolio/generated-latent-explorer.png';
 import gen_price_paths from '../images/portfolio/generated-price-paths.png';
 import type {PortfolioItem} from './dataDef';
 
 export const generatedProjects: PortfolioItem[] = [
+  {
+    title: "Genetic Algorithm Visualizer",
+    description: "Watch creatures evolve neural networks to navigate challenges through natural selection.",
+    url: "https://demo-genetic-algorithm-visualizer-gsjoa373ca-nw.a.run.app",
+    sourceUrl: "https://github.com/alternative-dl/react-resume/tree/main/generated-projects/genetic-algorithm-visualizer",
+    image: gen_genetic_algorithm_visualizer,
+  },
   {
     title: "Decision Boundary Explorer",
     description: "Watch logistic regression, SVM, k-NN, and decision trees learn decision boundaries as you interactively add training data.",
