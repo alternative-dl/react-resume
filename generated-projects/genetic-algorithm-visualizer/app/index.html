@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Genetic Algorithm Visualizer</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="shell">
+  <header class="masthead">
+    <div class="masthead__left">
+      <h1 class="masthead__title">GENETIC<br>ALGORITHM<br><span class="hl">VISUALIZER</span></h1>
+    </div>
+    <div class="masthead__right">
+      <p class="badge">NEURAL CREATURES &middot; EVOLVED BY NATURAL SELECTION</p>
+      <p class="masthead__sub">A population of agents steer tiny neural nets toward the target. Survivors breed, mutations creep in, and competence emerges &mdash; generation by generation.</p>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel panel--stage">
+      <div class="panel__bar"><span class="panel__tag">01 &mdash; ARENA</span><span class="panel__meta" id="arenaMeta">GEN 001</span></div>
+      <div class="stage">
+        <canvas id="sim"></canvas>
+        <div class="prog"><div class="prog__fill" id="progFill"></div></div>
+      </div>
+      <ul class="legend">
+        <li><span class="sw sw--start"></span>START</li>
+        <li><span class="sw sw--target"></span>TARGET</li>
+        <li><span class="sw sw--lead"></span>LEADER</li>
+        <li><span class="sw sw--alive"></span>ALIVE</li>
+        <li><span class="sw sw--dead"></span>CRASHED</li>
+      </ul>
+    </section>
+
+    <aside class="panel panel--side">
+      <div class="panel__bar"><span class="panel__tag">02 &mdash; TELEMETRY</span></div>
+      <div class="stats">
+        <div class="stat"><div class="stat__k">GENERATION</div><div class="stat__v" id="stGen">001</div></div>
+        <div class="stat stat--accent"><div class="stat__k">ALIVE</div><div class="stat__v" id="stAlive">0 / 0</div></div>
+        <div class="stat"><div class="stat__k">BEST &middot; ALL TIME</div><div class="stat__v" id="stBestAll">0</div></div>
+        <div class="stat"><div class="stat__k">BEST &middot; THIS GEN</div><div class="stat__v" id="stBestGen">0</div></div>
+        <div class="stat"><div class="stat__k">AVG FITNESS</div><div class="stat__v" id="stAvg">&mdash;</div></div>
+        <div class="stat stat--accent"><div class="stat__k">REACHED GOAL</div><div class="stat__v" id="stReached">0</div></div>
+      </div>
+      <div class="controls">
+        <div class="btnrow">
+          <button class="btn btn--primary" id="playBtn" type="button">PAUSE</button>
+          <button class="btn" id="stepBtn" type="button">SKIP GEN &#9656;</button>
+        </div>
+        <div class="btnrow">
+          <button class="btn" id="sensorBtn" type="button" aria-pressed="true">SENSORS: ON</button>
+          <button class="btn" id="resetBtn" type="button">RESET &#10227;</button>
+        </div>
+        <div class="ctrl">
+          <label for="speed">SIM SPEED <b id="speedVal">3&times;</b></label>
+          <input type="range" id="speed" min="1" max="10" value="3">
+        </div>
+        <div class="ctrl">
+          <label for="mut">MUTATION RATE <b id="mutVal">0.08</b></label>
+          <input type="range" id="mut" min="1" max="30" value="8">
+        </div>
+        <div class="ctrl">
+          <label for="pop">POPULATION <b id="popVal">60</b></label>
+          <input type="range" id="pop" min="20" max="120" step="10" value="60">
+          <span class="hint" id="popHint"></span>
+        </div>
+      </div>
+    </aside>
+
+    <section class="panel panel--brain">
+      <div class="panel__bar"><span class="panel__tag">03 &mdash; LEADER BRAIN</span><span class="panel__meta">7 &middot; 10 &middot; 2</span></div>
+      <canvas id="brain"></canvas>
+      <p class="caption">Live feed-forward net of the front-running creature. <span class="hl">ORANGE</span> = positive weight &middot; INK = negative. Node fill tracks activation.</p>
+    </section>
+
+    <section class="panel panel--chart">
+      <div class="panel__bar"><span class="panel__tag">04 &mdash; FITNESS &times; GENERATION</span><span class="panel__meta"><b class="hl">BEST</b> / AVG</span></div>
+      <canvas id="chart"></canvas>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>GENETIC ALGORITHM VISUALIZER</span>
+    <span>VANILLA JS &middot; NO DEPENDENCIES &middot; OFFLINE-READY</span>
+  </footer>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
